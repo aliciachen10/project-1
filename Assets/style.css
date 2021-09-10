@@ -27,7 +27,7 @@ body {
 }
 
 /* Flex Styling for Cards */
-.flex-row {
+.row {
     display: flex;
     flex-wrap: wrap;
 }
@@ -74,7 +74,8 @@ margin-bottom: 0;
 /* Top Border for the First Card Group */
 .card.bullishStock-card,
 .card.search-card,
-.card.bullishCrypto-card {
+.card.bullishCrypto-card,
+.card.comparison-card {
     margin-top: 15px;
     margin-bottom:15px;
 }
@@ -88,8 +89,7 @@ margin-bottom: 0;
 .card.bullishStock-card,
 .card.bullishCrypto-card,
 .card.bearishStock-card,
-.card.bearishCrypto-card {
+.card.bearishCrypto-card,
+.card.comparison-card {
     height: 30vh;
 }
-
-.card
