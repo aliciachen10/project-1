@@ -1,0 +1,26 @@
+:root {
+    --light: rgb(255, 255, 255);
+    --dark: rgb(68, 68, 68);
+}
+
+/* Icon Sizing */
+.icon {
+    height: 50px;
+    margin-right: 15px;;
+}
+
+/* Background and Text Color for Navbar */
+.navbar {
+    background-color: var(--light);
+}
+
+a {
+    color: var(--dark);
+    background-color: var(--light);
+}
+
+/* Background and Text Color for Body */
+body {
+    background-color: var(--dark);
+    color: var(--light);
+}
