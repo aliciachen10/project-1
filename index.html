@@ -52,8 +52,34 @@
             </div>
           </nav>
     </header>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="Assets/script.js"></script>
+    <!-- Search Card -->
+    <main class="flex-row justify-space-between">
+        <div class="col-12 col-md-3">
+        
+            <div class="card search-card">
+                <div class="card-body">
+                    <h4 class="card-title">Search for a Stock:</h4>
+                    <form id="user-form">
+                        <label class="form-label" for="stock"></label>
+                        <input name="stockSymbol" id="stockSymbol" type="text" autofocus="true" class="form-input" />
+                    </form>
+                    <button type="submit" form="user-form" value="submit" class="btn">Search</button>
+                </div>
+            </div>
+    <!-- Searched Stocks Card -->
+            <div class="card searchedStocks-card">
+                <div class="card-body">
+                  <h4 class="card-title">Stocks:</h4>
+                </div>
+            </div>
+    <!-- Stock and Crypto Info Cards     -->
+            <div class="col-12 col-md-4.5">    
+                <div class="card bullishStock-card"></div>
+                <div class="card bullishCrypto-card"></div>
+                <div class="card bearishStock-card"></div>
+                <div class="card bearishCrypto-card"></div>
+            </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="Assets/script.js"></script>
 </body>
 </html>

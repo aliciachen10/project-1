@@ -1,6 +1,7 @@
 :root {
     --light: rgb(255, 255, 255);
     --dark: rgb(68, 68, 68);
+    --border-radius: 0.2rem;
 }
 
 /* Icon Sizing */
@@ -23,4 +24,49 @@ a {
 body {
     background-color: var(--dark);
     color: var(--light);
+}
+
+/* Search Card Styling */
+.card-title {
+margin-top: 10px;
+margin-bottom: 0;
+}
+.card-body {
+    color: var(--dark);
+}
+
+.form-input {
+    width: 100%;
+    padding: 2%;
+    margin: 5px 0;
+    font-size: 1.2rem;
+    border: 2px solid 
+    display: block;
+    border-radius: var(--border-radius);
+  }
+
+  .btn {
+    font-size: 1.3rem;
+    text-decoration: none;
+    padding: 6px 5px;
+    width: 100%;
+    display: block;
+    margin: 5px 0;
+    border-radius: var(--border-radius);
+    color: var(--light);
+    border: none;
+    outline: none;
+    background-color: var(--primary);
+    border-radius: var(--border-radius);
+}
+
+.card.search-card {
+    height: 30vh;
+    border-bottom: solid var(--dark);
+    margin-left: auto;
+}
+
+.card.searchedStocks-card {
+    height: 80vh;
+
 }
