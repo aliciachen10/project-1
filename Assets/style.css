@@ -26,6 +26,12 @@ body {
     color: var(--light);
 }
 
+/* Flex Styling for Cards */
+.flex-row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
 /* Search Card Styling */
 .card-title {
 margin-top: 10px;
@@ -63,10 +69,16 @@ margin-bottom: 0;
 .card.search-card {
     height: 30vh;
     border-bottom: solid var(--dark);
-    margin-left: auto;
 }
 
+/* Top Border for the First Card Group */
+.card.bullishStock-card,
+.card.search-card,
+.card.bullishCrypto-card {
+    margin-top: 15px;
+}
+
+/* Searched Stocks Card Height */
 .card.searchedStocks-card {
     height: 80vh;
-
 }

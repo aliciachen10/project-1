@@ -52,13 +52,12 @@
             </div>
           </nav>
     </header>
-    <!-- Search Card -->
-    <main class="flex-row justify-space-between">
-        <div class="col-12 col-md-3">
-        
+    <main class="row row-cols-1 row-cols-md-3 g-4">
+    <!-- Search Card -->        
+        <div class="col-2">
             <div class="card search-card">
                 <div class="card-body">
-                    <h4 class="card-title">Search for a Stock:</h4>
+                    <h5 class="card-title">Search for a Stock:</h5>
                     <form id="user-form">
                         <label class="form-label" for="stock"></label>
                         <input name="stockSymbol" id="stockSymbol" type="text" autofocus="true" class="form-input" />
@@ -66,19 +65,52 @@
                     <button type="submit" form="user-form" value="submit" class="btn">Search</button>
                 </div>
             </div>
-    <!-- Searched Stocks Card -->
-            <div class="card searchedStocks-card">
+        </div>
+    <!-- Bullish Stock Card -->
+        <div class="col-5">
+            <div class="card bullishStock-card">
                 <div class="card-body">
-                  <h4 class="card-title">Stocks:</h4>
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
                 </div>
             </div>
-    <!-- Stock and Crypto Info Cards     -->
-            <div class="col-12 col-md-4.5">    
-                <div class="card bullishStock-card"></div>
-                <div class="card bullishCrypto-card"></div>
-                <div class="card bearishStock-card"></div>
-                <div class="card bearishCrypto-card"></div>
+        </div>
+    <!-- Bullish Crypto Stock -->
+        <div class="col-5">
+            <div class="card bullishCrypto-card">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.</p>
+                </div>
             </div>
+        </div>
+    <!-- Searched Stocks Card -->
+        <div class="col-2">
+            <div class="card searchedStocks-card">
+                <div class="card-body">
+                    <h5 class="card-title">Stocks:</h5>
+                </div>
+            </div>
+        </div>
+    <!-- Bearish Stock Card -->
+        <div class="col-5">
+            <div class="card bearishStock-card">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                </div>
+            </div>
+        </div>
+    <!-- Bearish Crypto Card -->
+        <div class="col-5">
+            <div class="card bearishCrypto">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                </div>
+            </div>
+        </div>
+    </main>  
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="Assets/script.js"></script>
 </body>
