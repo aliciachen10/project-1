@@ -76,9 +76,20 @@ margin-bottom: 0;
 .card.search-card,
 .card.bullishCrypto-card {
     margin-top: 15px;
+    margin-bottom:15px;
 }
 
 /* Searched Stocks Card Height */
 .card.searchedStocks-card {
     height: 80vh;
 }
+
+/* Stock and Crypto Card Height */
+.card.bullishStock-card,
+.card.bullishCrypto-card,
+.card.bearishStock-card,
+.card.bearishCrypto-card {
+    height: 30vh;
+}
+
+.card
