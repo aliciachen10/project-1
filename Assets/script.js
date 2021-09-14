@@ -1,5 +1,17 @@
 var returnData;
 
+fetch('https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=amaz&apikey=iuygasod78g')
+  .then(function (response) {
+      return response.json();
+  })
+  .then(function (data) {
+      var searchResults = [];
+      for (var i = 0; i < data['bestMatches'].length; i++) {
+          searchResults.push(data['bestMatches'][i]);
+      }
+      console.log(searchResults);
+  });
+
 fetch('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&apikey=demo')
   .then(function (response) {
     return response.json();
@@ -16,5 +28,5 @@ fetch('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&a
         });
         xValue--;
     }
-    console.log(dataset);
+    // console.log(dataset);
   });
