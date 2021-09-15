@@ -30,3 +30,9 @@ fetch('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&a
     }
     // console.log(dataset);
   });
+
+// crypto exchanges:
+// ["BITTREX","BITFINEX","BITMEX","HUOBI","FXPIG","GEMINI","COINBASE","KRAKEN","HITBTC","BINANCE","KUCOIN","OKEX","ZB","POLONIEX"]
+
+// finnhub api key
+// c50jesqad3ic9bdl9ojg
