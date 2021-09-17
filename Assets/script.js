@@ -1,75 +1,60 @@
-var returnData;
+async function getStockSearchResults(query) {
+  const response = await fetch('https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=' + query + '&apikey=iuygasod78g');
+  const data = await response.json();
 
-// concept for getting search results from Alphavantage API
-fetch('https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=amaz&apikey=iuygasod78g')
-  .then(function (response) {
-      return response.json();
-  })
-  .then(function (data) {
-      var searchResults = [];
-      for (var i = 0; i < data['bestMatches'].length; i++) {
-          searchResults.push(data['bestMatches'][i]);
-      }
-      // console.log(searchResults);
+  // console.log(data['bestMatches']);
+  return data['bestMatches'];
+}
+
+async function getStockData(symbol) {
+  const response = await fetch('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=' + symbol + '&apikey=iuygasod78g');
+  const data = await response.json();
+
+  var myKeysRaw = Object.keys(data['Time Series (Daily)'])
+  var myKeys = []
+  var myValuesRaw = []
+  var myValues = []
+  for (var i = 0; i < myKeysRaw.length; i++) {
+    myValuesRaw.push(data['Time Series (Daily)'][myKeysRaw[i]]['4. close'])
+    myValues.push(parseFloat(myValuesRaw[i]))
+  }
+
+  for (var i=0; i < myKeysRaw.length; i++) {
+    myKeys.push(i)
+  }
+
+  var graphPoints = myKeys.map(function (e, i) {
+    return ([e, myValues[i]]);
   });
 
-// concept for getting the historical data from a stock
-fetch('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&apikey=demo')
-  .then(function (response) {
-    return response.json();
-  })
-  .then(function (data) {
-    var dataset = [];
-    var xValue = 100; // the API gives us an output of 100 values, so we're decrementing against that for x values
+  return graphPoints
+}
 
-    for (var datecode in data['Time Series (Daily)']) {
-        dataset.unshift({
-            'x': xValue,
-            'y': data['Time Series (Daily)'][datecode]['1. open'],
-            'date': datecode
-        });
-        xValue--;
+async function getCryptoSearchResults(query) {
+  const response = await fetch('https://finnhub.io/api/v1/crypto/symbol?exchange=coinbase&token=c50jesqad3ic9bdl9ojg');
+  const data = await response.json();
+
+  var filteredResults = [];
+  for (var entry in data) {
+    // console.log(data[entry]['displaySymbol']);
+    if (data[entry]['displaySymbol'].includes('BTC')) {
+      filteredResults.push(data[entry]);
     }
-    // console.log(dataset);
-  });
+  }
 
-// concept for using FinnHub API results to search for crypto and outputting results 
-fetch('https://finnhub.io/api/v1/crypto/symbol?exchange=coinbase&token=c50jesqad3ic9bdl9ojg')
-  .then(function (response) {
-    return response.json();
-  })
-  .then(function (data) {
-    var filteredResults = [];
-    for (var entry in data) {
-      // console.log(data[entry]['displaySymbol']);
-      if (data[entry]['displaySymbol'].includes('BTC')) {
-        filteredResults.push(data[entry]);
-      }
-    }
-    console.log(filteredResults);
-  });
+  return filteredResults;
+}
 
-// concept for getting current stock data results from the AlphaVantage API
-fetch('https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=IBM&apikey=demo')
-  .then(function (response) {
-    return response.json();
-  })
-  .then(function (data) {
-    console.log(data);
-  });
+async function getCurrentStockData(symbol) {
+  const response = await fetch('https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=' + symbol + '&apikey=iuygasod78g');
+  const data = await response.json();
 
-// concept for getting current crypto info results from the AlphaVantage API
-fetch('https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=BTC&to_currency=CNY&apikey=demo')
-  .then(function (response) {
-    return response.json();
-  })
-  .then(function (data) {
-    console.log(data);
-  })
+  return data;
+}
 
+async function getCurrentCryptoData(symbol) {
+  const response = await fetch('https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=' + symbol + '&to_currency=USD&apikey=iuygasod78g');
+  const data = await response.json();
 
-// crypto exchanges:
-// ["BITTREX","BITFINEX","BITMEX","HUOBI","FXPIG","GEMINI","COINBASE","KRAKEN","HITBTC","BINANCE","KUCOIN","OKEX","ZB","POLONIEX"]
-
-// finnhub api key
-// c50jesqad3ic9bdl9ojg
+  return data;
+}
