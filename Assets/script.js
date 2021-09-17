@@ -30,6 +30,33 @@ async function getStockData(symbol) {
   return graphPoints
 }
 
+async function getCryptoData(symbol) {
+  const response = await fetch('https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_DAILY&symbol=BTC&market=CNY&apikey=iuygasod78g');
+  const data = await response.json();
+
+  var myKeysRaw = Object.keys(data['Time Series (Digital Currency Daily)'])
+  var myKeys = []
+  var myValuesRaw = []
+  var myValues = []
+  for (var i = 0; i < myKeysRaw.length; i++) {
+    myValuesRaw.push(data['Time Series (Digital Currency Daily)'][myKeysRaw[i]]['4. close'])
+    myValues.push(parseFloat(myValuesRaw[i]))
+  }
+
+  for (var i=0; i < myKeysRaw.length; i++) {
+    myKeys.push(i)
+  }
+
+  var graphPoints = myKeys.map(function (e, i) {
+    return ([e, myValues[i]]);
+  });
+
+  return graphPoints
+}
+
+var results = getCryptoData('BTC');
+console.log(results);
+
 async function getCryptoSearchResults(query) {
   const response = await fetch('https://finnhub.io/api/v1/crypto/symbol?exchange=coinbase&token=c50jesqad3ic9bdl9ojg');
   const data = await response.json();
