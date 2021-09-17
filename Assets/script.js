@@ -1,5 +1,7 @@
 async function getStockSearchResults(query) {
-  const response = await fetch('https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=' + query + '&apikey=JI86IY1O8XRDR9YT');
+
+  const response = await fetch('https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=' + query + '&apikey=iuygasod78g');
+
   const data = await response.json();
 
   // console.log(data['bestMatches']);
@@ -7,13 +9,16 @@ async function getStockSearchResults(query) {
 }
 
 async function getStockData(symbol) {
-  const response = await fetch('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=' + symbol + '&apikey=JI86IY1O8XRDR9YT');
+
+const response = await fetch('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=' + symbol + '&apikey=iuygasod78g');
+
   const data = await response.json();
 
   var myKeysRaw = Object.keys(data['Time Series (Daily)'])
   var myKeys = []
   var myValuesRaw = []
   var myValues = []
+
   for (var i = 0; i < 100; i++) {
     myKeys.push(i)
   }
@@ -31,6 +36,7 @@ async function getStockData(symbol) {
 }
 
 async function getCryptoData(symbol) {
+
   const response = await fetch('https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_DAILY&symbol=' + symbol + '&market=CNY&apikey=iuygasod78g');
   const data = await response.json();
 
@@ -55,6 +61,7 @@ async function getCryptoData(symbol) {
 }
 
 var results = getCryptoData('BTC');
+
 
 async function getCryptoSearchResults(query) {
   const response = await fetch('https://finnhub.io/api/v1/crypto/symbol?exchange=coinbase&token=c50jesqad3ic9bdl9ojg');
@@ -84,6 +91,7 @@ async function getCurrentCryptoData(symbol) {
 
   return data;
 }
+
 
 async function makeMyGraph(symbol) {
   d = await getStockData(symbol)

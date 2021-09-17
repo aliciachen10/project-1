@@ -101,5 +101,8 @@ margin-bottom: 0;
 .card.bearishStock-card,
 .card.bearishCrypto-card,
 .card.comparison-card {
+
   height: 30vh;
 }
+
+
