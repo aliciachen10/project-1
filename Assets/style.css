@@ -99,10 +99,11 @@ margin-bottom: 0;
 .card.bullishStock-card,
 .card.bullishCrypto-card,
 .card.bearishStock-card,
-.card.bearishCrypto-card,
 .card.comparison-card {
 
   height: 30vh;
 }
 
-
+.card.bearishCrypto-card {
+  height: 40vh;
+}
