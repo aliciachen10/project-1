@@ -12,6 +12,7 @@
         href="assets/style.css"
         rel="stylesheet"
     />    
+    <script src="https://d3js.org/d3.v4.min.js"></script>
     <title>Custom Name</title>
 </head>
 <body>
@@ -49,7 +50,8 @@
                 <div class="card-body">
                     <h5 class="card-title">Search for a Stock:</h5>
                     <form id="user-form">
-                        <input name="stockSymbol" id="stock-input" type="text" autofocus="true" class="form-input" />
+                        <label class="form-label" for="stock"></label>
+                        <input name="stockSymbol" id="stockSymbol" type="text" autofocus="true" class="form-input" />
                     </form>
                     <button id="search-button" type="submit" form="user-form" value="submit" class="btn">Search</button>
                 </div>
@@ -96,7 +98,10 @@
             <div class="card bearishCrypto-card">
                 <div class="card-body">
                     <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    <!-- <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p> -->
+                    <svg  width="500" height="400" class="stock-graph"></svg>
+                    <!-- <svg width="100%" height="auto" viewBox="0 0 100 100"></svg> -->
+
                 </div>
             </div>
         </div>
@@ -105,7 +110,7 @@
             <div class="card comparison-card">
                 <div class="card-body">
                     <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    <!-- <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p> -->
                 </div>
             </div>
         </div>
