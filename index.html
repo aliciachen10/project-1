@@ -45,6 +45,18 @@
     </header>
     <main class="row row-cols-1 row-cols-md-4 g-4">
     <!-- Search Card -->        
+
+        <div class="col-2">
+            <div class="card search-card">
+                <div class="card-body">
+                    <h5 class="card-title">Search for a Stock:</h5>
+                    <form id="user-form">
+                        <label class="form-label" for="stock"></label>
+                        <input name="stockSymbol" id="stockSymbol" type="text" autofocus="true" class="form-input" />
+                    </form>
+                    <button id="search-button" type="submit" form="user-form" value="submit" class="btn">Search</button>
+                </div>
+
     <div class="col-2">
         <div class="card search-card">
             <div class="card-body">
@@ -54,6 +66,7 @@
                     <input name="stockSymbol" id="stockSymbol" type="text" autofocus="true" class="form-input" />
                 </form>
                 <button type="submit" form="user-form" value="submit" class="btn">Search</button>
+
             </div>
         </div>
     </div>
@@ -82,6 +95,7 @@
             <div class="card searchedStocks-card">
                 <div class="card-body">
                     <h5 class="card-title">Stocks:</h5>
+                    <ul id="stock-list" class="list-group" style="width: 7rem;"></ul>
                 </div>
             </div>
         </div>
@@ -120,6 +134,7 @@
     </main>  
         
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="assets/script.js"></script>
 </body>
