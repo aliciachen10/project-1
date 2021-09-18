@@ -194,3 +194,62 @@ search2.addEventListener('click', function(event) {
 
 
 makeMyGraph("JBLU")
+
+//local storage
+
+function createList(stockSearch) {
+  $("#stock-list").empty();
+
+  let keys = Object.keys(stockSearch);
+  for (var i = 0; i < keys.length; i++) {
+    let stockLists = $("<button>");
+    stockLists.addClass("list-group-item list-group-item-action");
+
+    let splLoop = keys[i].toLowerCase().split(" ");
+    for (var j = 0; j < splLoop.length; j++) {
+      splLoop[j] =
+        splLoop[j].charAt(0).toUpperCase() + splLoop[j].substring(1);
+    }
+    let titleCasedStock = splLoop.join(" ");
+    stockLists.text(titleCasedStock);
+
+    $("#stock-list").append(stockLists);
+  }
+}
+
+
+$(document).ready(function() {
+  var stockSearchStringified = localStorage.getItem("stockSearch");
+
+  var stockSearch = JSON.parse(stockSearchStringified);
+
+  if (stockSearch == null) {
+    stockSearch = {};
+  }
+
+  createList(stockSearch);
+
+  $("#search-button").on("click", function(event) {
+    event.preventDefault();
+    let stock = $("#stockSymbol")
+      .val().trim()
+
+    if (stock != "") {
+    
+      stockSearch[stock] = true;
+    localStorage.setItem("stockSearch", JSON.stringify(stockSearch));
+
+
+    }
+
+  });
+
+  //should link to pull up same stock later
+  $("#stock-list").on("click", "button", function(event) {
+    event.preventDefault();
+    let stock = $(this).text();
+
+
+  });
+});
+
