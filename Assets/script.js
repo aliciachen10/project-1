@@ -1,6 +1,9 @@
+const AV_API_URL = 'https://www.alphavantage.co/query?';
+const API_KEY = 'iuygasod78g';
+
 async function getStockSearchResults(query) {
 
-  const response = await fetch('https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=' + query + '&apikey=iuygasod78g');
+  const response = await fetch(AV_API_URL + 'function=SYMBOL_SEARCH&keywords=' + query + '&apikey=' + API_KEY);
 
   const data = await response.json();
 
@@ -10,7 +13,7 @@ async function getStockSearchResults(query) {
 
 async function getStockData(symbol) {
 
-const response = await fetch('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=' + symbol + '&apikey=iuygasod78g');
+const response = await fetch(AV_API_URL + 'function=TIME_SERIES_DAILY&symbol=' + symbol + '&apikey=' + API_KEY);
 
   const data = await response.json();
 
@@ -37,7 +40,7 @@ const response = await fetch('https://www.alphavantage.co/query?function=TIME_SE
 
 async function getCryptoData(symbol) {
 
-  const response = await fetch('https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_DAILY&symbol=' + symbol + '&market=USD&apikey=iuygasod78g');
+  const response = await fetch(AV_API_URL + 'function=DIGITAL_CURRENCY_DAILY&symbol=' + symbol + '&market=USD&apikey=');
   const data = await response.json();
   console.log(data);
 
@@ -62,8 +65,8 @@ async function getCryptoData(symbol) {
   return graphPoints
 }
 
-var results = getCryptoData('BTC');
-console.log(results);
+// var results = getCryptoData('BTC');
+// console.log(results);
 
 async function getCryptoSearchResults(query) {
   const response = await fetch('https://finnhub.io/api/v1/crypto/symbol?exchange=coinbase&token=c50jesqad3ic9bdl9ojg');
@@ -80,24 +83,11 @@ async function getCryptoSearchResults(query) {
   return filteredResults;
 }
 
-async function getCurrentStockData(symbol) {
-  const response = await fetch('https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=' + symbol + '&apikey=iuygasod78g');
-  const data = await response.json();
-
-  return data;
-}
-
-async function getCurrentCryptoData(symbol) {
-  const response = await fetch('https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=' + symbol + '&to_currency=USD&apikey=iuygasod78g');
-  const data = await response.json();
-
-  return data;
-}
-
-
-async function makeMyGraph(symbol) {
-  d = await getStockData(symbol)
-  console.log(d)
+async function makeMyGraph(data) {
+  //if (userinput )
+  //d = await getCryptoData(symbol)
+  //d = await getStockData(symbol)
+  console.log(data)
   // Step 3
   var svg = d3.select("svg"),
     margin = 200,
@@ -105,7 +95,7 @@ async function makeMyGraph(symbol) {
     height = svg.attr("height") - margin //200
 
   //get stock prices
-  var stockPrices = d.map(function (x) {
+  var stockPrices = data.map(function (x) {
     return x[1];
   })
   //get lower bound
@@ -158,7 +148,7 @@ async function makeMyGraph(symbol) {
   // Step 7
   svg.append('g')
     .selectAll("dot")
-    .data(d)
+    .data(data)
     .enter()
     .append("circle")
     .attr("cx", function (d) { return xScale(d[0]); })
@@ -175,7 +165,7 @@ async function makeMyGraph(symbol) {
     .curve(d3.curveMonotoneX)
 
   svg.append("path")
-    .datum(d)
+    .datum(data)
     .attr("class", "line")
     .attr("transform", "translate(" + 100 + "," + 100 + ")")
     .attr("d", line)
@@ -184,5 +174,23 @@ async function makeMyGraph(symbol) {
     .style("stroke-width", "2");
 
 }
+
+//teja & jeffery, this needs to be nodified so that search1 refers to stock graph and search2 refers cryptop graph
+search1.addEventListener('click', function(event) {
+  const symbol = event.target.value;
+  //const response = await getCurrentStockData(symbol);
+  const response = await fetch(AV_API_URL + 'function=GLOBAL_QUOTE&symbol=' + symbol + '&apikey=' + API_KEY);
+  const data = await response.json();
+  makeMyGraph(data);
+});
+
+search2.addEventListener('click', function(event) {
+  const symbol = event.target.value;
+  const response = await fetch(AV_API_URL + 'function=CURRENCY_EXCHANGE_RATE&from_currency=' + symbol + '&to_currency=USD&apikey=' + API_KEY);
+  const data = await response.json();
+  makeMyGraph(data);
+});
+
+
 
 makeMyGraph("JBLU")
