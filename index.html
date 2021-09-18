@@ -44,6 +44,9 @@
           </nav>
     </header>
     <main class="row row-cols-1 row-cols-md-4 g-4">
+
+    <!-- Stock Search Card -->
+
     <!-- Search Card -->        
 
         <div class="col-2">
@@ -58,13 +61,16 @@
                 </div>
 
     <div class="col-2">
-        <div class="card search-card">
-            <div class="card-body">
+        <div class="card stockSearch-card">
+            <div class="card-body" id="stockSearch">
                 <h5 class="card-title">Search for a Stock:</h5>
-                <form id="user-form">
+                <form id="stock-form">
                     <label class="form-label" for="stock"></label>
                     <input name="stockSymbol" id="stockSymbol" type="text" autofocus="true" class="form-input" />
                 </form>
+
+                <button type="submit" form="stock-form" value="submit" class="btn">Search</button>
+
                 <button type="submit" form="user-form" value="submit" class="btn">Search</button>
 
             </div>
@@ -78,18 +84,17 @@
                     <h5 class="card-title">Card title</h5>
                     <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
                 </div>
+
             </div>
-        </div>  
-    <!-- Bullish Crypto Stock -->
-        <div class="col-6">
-            <div class="card bullishCrypto-card">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.</p>
-                </div>
+            <div class="card-body">
+                <h5>Recent Stocks:</h5>
             </div>
         </div>
     </div>
+
+    <div class="row col-8">  
+    <!--Stock Card-->
+
     <!-- Searched Stocks Card --> 
         <div class="col-2">
             <div class="card searchedStocks-card">
@@ -101,41 +106,51 @@
         </div>
     <!-- Bearish Stock Card -->
     <div class="row col-10">  
+
         <div class="col-6">
-            <div class="card bearishStock-card">
+            <div class="card stock-card">
                 <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    <h5 class="card-title"></h5>
+                    <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.</p>
                 </div>
             </div>
         </div>
-    <!-- Bearish Crypto Card -->
         <div class="col-6">
-            <div class="card bearishCrypto-card">
+    <!-- Crypto Card -->
+            <div class="card crypto-card">
                 <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
+                    <h5 class="card-title"></h5>
                     <!-- <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p> -->
                     <svg  width="500" height="400" class="stock-graph"></svg>
-                    <!-- <svg width="100%" height="auto" viewBox="0 0 100 100"></svg> -->
-
+                    <svg width="100%" height="auto" viewBox="0 0 100 100"></svg>
                 </div>
             </div>
         </div>
-    <!-- Comparison Card -->
-        <div class="col-12">
-            <div class="card comparison-card">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <!-- <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p> -->
-                </div>
+    </div>
+    <div class="col-2">
+    <!-- Crypto Search Card -->
+        <div class="card cryptoSearch-card">
+            <div class="card-body" id="cryptoSearch">
+                <h5 class="card-title">Search for a Crypto:</h5>
+                <form id="crypto-form">
+                    <label class="form-label" for="crypto"></label>
+                    <input name="cryptoSymbol" id="cryptoSymbol" type="text" autofocus="true" class="form-input" />
+                </form>
+                <button type="submit" form="crypto-form" value="submit" class="btn">Search</button>
+            </div>
+            <div class="card-body">
+                <h5>Recent Crypto:</h5>
             </div>
         </div>
-    </div> 
-    </main>  
+    </div>
+    </main>
         
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="assets/script.js"></script>
 </body>
+<footer class="footer">
+    <p id="footer-text"> ©2021 [Custom Name]. All Rights Reserved</p>
+</footer>
 </html>
