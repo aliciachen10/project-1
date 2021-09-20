@@ -28,7 +28,6 @@ function renderStocks(){
       $("#stock-list").prepend(a);
   } 
 }
-
 //Crypto into DOM
 function renderCrypto(){
   $("#crypto-list").empty();
@@ -42,28 +41,20 @@ function renderCrypto(){
       $("#crypto-list").prepend(a);
   } 
 }
-
-
 //Save to local array
 function storeStockArray() {
   localStorage.setItem("stocks", JSON.stringify(stockList));
   }
-
 function storeCryptoArray() {
     localStorage.setItem("cryptos", JSON.stringify(cryptoList));
     }
-  
 function storeCurrentStock() {
 
       localStorage.setItem("currentstock", JSON.stringify(stockSearch));
   }
-
 function storeCurrentCrypto(){
   localStorage.setItem("currentcrypto", JSON.stringify(cryptoSearch));
-}
-        
-
-
+}     
 //Pull from local storage
 function initStockList(){
   var storedStocks = JSON.parse(localStorage.getItem("stocks"));
@@ -74,7 +65,6 @@ function initStockList(){
 
   renderStocks();
 }
-
 function initCryptoList(){
   var storedCrypto = JSON.parse(localStorage.getItem("cryptos"));
 
@@ -84,7 +74,7 @@ function initCryptoList(){
 
   renderCrypto();
 }
-
+//Searchbar Stuff
 
 async function getStockSearchResults(query) {
 
@@ -94,7 +84,27 @@ async function getStockSearchResults(query) {
 
   // console.log(data['bestMatches']);
   return data['bestMatches'];
+
 }
+
+async function getCryptoSearchResults(query) {
+  const response = await fetch('https://finnhub.io/api/v1/crypto/symbol?exchange=coinbase&token=c50jesqad3ic9bdl9ojg');
+  const data = await response.json();
+
+  var filteredResults = [];
+  for (var entry in data) {
+    // console.log(data[entry]['displaySymbol']);
+    if (data[entry]['displaySymbol'].includes('BTC')) {
+      filteredResults.push(data[entry]);
+    }
+  }
+
+  return filteredResults;
+}
+
+
+
+// Graphing Functions
 
 async function getStockData(symbol) {
 
@@ -148,24 +158,6 @@ async function getCryptoData(symbol) {
   });
 
   return graphPoints
-}
-
-// var results = getCryptoData('BTC');
-// console.log(results);
-
-async function getCryptoSearchResults(query) {
-  const response = await fetch('https://finnhub.io/api/v1/crypto/symbol?exchange=coinbase&token=c50jesqad3ic9bdl9ojg');
-  const data = await response.json();
-
-  var filteredResults = [];
-  for (var entry in data) {
-    // console.log(data[entry]['displaySymbol']);
-    if (data[entry]['displaySymbol'].includes('BTC')) {
-      filteredResults.push(data[entry]);
-    }
-  }
-
-  return filteredResults;
 }
 
 async function makeMyStockGraph(symbol) {
@@ -257,7 +249,6 @@ async function makeMyStockGraph(symbol) {
     .style("stroke", "#CC0000")
     .style("stroke-width", "2");
 
-    svg = stockSvg;
 }
 
 async function makeMyCryptoGraph(symbol) {
