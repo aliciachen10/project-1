@@ -113,6 +113,8 @@ const response = await fetch(AV_API_URL + 'function=TIME_SERIES_DAILY&symbol=' +
 
   const data = await response.json();
 
+  console.log(data);
+
   var myKeysRaw = Object.keys(data['Time Series (Daily)'])
   var myKeys = []
   var myValuesRaw = []
@@ -139,6 +141,7 @@ async function getCryptoData(symbol) {
   const response = await fetch(AV_API_URL + 'function=DIGITAL_CURRENCY_DAILY&symbol=' + symbol + '&market=USD&apikey=' + API_KEY);
   const data = await response.json();
   console.log(data);
+  console.log(response);
 
   var myKeysRaw = Object.keys(data['Time Series (Digital Currency Daily)']);
   var myKeys = []
@@ -364,8 +367,8 @@ $("#stockBtn").on('click', async function(event){
   renderStocks();
   
   //const response = await getCurrentStockData(symbol);
-  const response = await fetch(AV_API_URL + 'function=GLOBAL_QUOTE&symbol=' + symbol + '&apikey=' + API_KEY);
-  const data = await response.json();
+  // const response = await fetch(AV_API_URL + 'function=GLOBAL_QUOTE&symbol=' + symbol + '&apikey=' + API_KEY);
+  // const data = await response.json();
   console.log(symbol);
   makeMyStockGraph(symbol);
   }
@@ -388,8 +391,8 @@ $("#cryptoBtn").on('click', async function(event){
   storeCryptoArray();
   renderCrypto();
   
-  const response = await fetch(AV_API_URL + 'function=CURRENCY_EXCHANGE_RATE&from_currency=' + symbol + '&to_currency=USD&apikey=' + API_KEY);
-  const data = await response.json();
+  // const response = await fetch(AV_API_URL + 'function=CURRENCY_EXCHANGE_RATE&from_currency=' + symbol + '&to_currency=USD&apikey=' + API_KEY);
+  // const data = await response.json();
   console.log(symbol);
   makeMyCryptoGraph(symbol);
   }
