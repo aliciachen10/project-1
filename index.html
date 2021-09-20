@@ -45,6 +45,22 @@
     </header>
     <main class="row row-cols-1 row-cols-md-4 g-4">
     <!-- Stock Search Card -->
+
+    <!-- Stock Search Card -->
+
+    <!-- Search Card -->        
+
+        <div class="col-2">
+            <div class="card search-card">
+                <div class="card-body">
+                    <h5 class="card-title">Search for a Stock:</h5>
+                    <form id="user-form">
+                        <label class="form-label" for="stock"></label>
+                        <input name="stockSymbol" id="stockSymbol" type="text" autofocus="true" class="form-input" />
+                    </form>
+                    <button id="search-button" type="submit" form="user-form" value="submit" class="btn">Search</button>
+                </div>
+
     <div class="col-2">
         <div class="card stockSearch-card">
             <div class="card-body" id="stockSearch">
@@ -54,6 +70,23 @@
                     <input name="stockSymbol" id="stockSymbol" type="text" autofocus="true" class="form-input" />
                 </form>
                 <button type="submit" form="stock-form" value="submit" class="btn">Search</button>
+
+                <button type="submit" form="stock-form" value="submit" class="btn">Search</button>
+
+                <button type="submit" form="user-form" value="submit" class="btn">Search</button>
+
+            </div>
+        </div>
+    </div>
+    <!-- Bullish Stock Card -->
+    <div class="row col-10">  
+        <div class="col-6">
+            <div class="card bullishStock-card">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                </div>
+
             </div>
             <div class="card-body">
                 <h5>Recent Stocks:</h5>
@@ -62,6 +95,22 @@
     </div>
     <div class="row col-8">  
     <!--Stock Card-->
+
+    <div class="row col-8">  
+    <!--Stock Card-->
+
+    <!-- Searched Stocks Card --> 
+        <div class="col-2">
+            <div class="card searchedStocks-card">
+                <div class="card-body">
+                    <h5 class="card-title">Stocks:</h5>
+                    <ul id="stock-list" class="list-group" style="width: 7rem;"></ul>
+                </div>
+            </div>
+        </div>
+    <!-- Bearish Stock Card -->
+    <div class="row col-10">  
+
         <div class="col-6">
             <div class="card stock-card">
                 <div class="card-body">
@@ -101,6 +150,7 @@
     </main>
         
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="assets/script.js"></script>
 </body>
