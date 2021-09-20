@@ -8,8 +8,82 @@ const cryptoBtn = document.getElementById('cryptoBtn');
 var stockSvg = document.getElementById('stock-svg');
 var cryptoSvg = document.getElementById('crypto-svg');
 let symbol = "";
-let search = "";
 
+//Local Storage Variables.
+var stockSearch;
+var stockList = [];
+var cryptoSearch;
+var cryptoList = [];
+
+//Enter searced Stock into DOM
+function renderStocks(){
+  $("#stock-list").empty();
+  $("#stockSymbol").val("");
+  
+  for (i=0; i<stockList.length; i++){
+      var a = $("<div.stocklist>");
+      a.addClass("list-group-item");
+      a.attr("data-name", stockList[i]);
+      a.text(stockList[i]);
+      $("#stock-list").prepend(a);
+  } 
+}
+
+//Crypto into DOM
+function renderCrypto(){
+  $("#crypto-list").empty();
+  $("#cryptoSymbol").val("");
+  
+  for (i=0; i<cryptoList.length; i++){
+      var a = $("<div.crypto-list>");
+      a.addClass("list-group-item");
+      a.attr("data-name", cryptoList[i]);
+      a.text(cryptoList[i]);
+      $("#crypto-list").prepend(a);
+  } 
+}
+
+
+//Save to local array
+function storeStockArray() {
+  localStorage.setItem("stocks", JSON.stringify(stockList));
+  }
+
+function storeCryptoArray() {
+    localStorage.setItem("cryptos", JSON.stringify(cryptoList));
+    }
+  
+function storeCurrentStock() {
+
+      localStorage.setItem("currentstock", JSON.stringify(stockSearch));
+  }
+
+function storeCurrentCrypto(){
+  localStorage.setItem("currentcrypto", JSON.stringify(cryptoSearch));
+}
+        
+
+
+//Pull from local storage
+function initStockList(){
+  var storedStocks = JSON.parse(localStorage.getItem("stocks"));
+
+  if (storedStocks !== null){
+    stockList = storedStocks;
+  }
+
+  renderStocks();
+}
+
+function initCryptoList(){
+  var storedCrypto = JSON.parse(localStorage.getItem("cryptos"));
+
+  if (storedCrypto !== null){
+    cryptoList = storedCrypto;
+  }
+
+  renderCrypto();
+}
 
 
 async function getStockSearchResults(query) {
@@ -275,7 +349,7 @@ async function makeMyCryptoGraph(symbol) {
     .style("stroke", "#CC0000")
     .style("stroke-width", "2");
 
-  svg = document.getElementById('crypto-svg');
+  
    
 }
 
@@ -283,24 +357,34 @@ async function makeMyCryptoGraph(symbol) {
 $("#stockBtn").on('click', async function(event){
   event.preventDefault();
   $("svg.stock-graph").empty();
+  //Stock List
   symbol = $("#stockSymbol").val().trim();
+  stockList.push(symbol);
+  storeCurrentStock();
+  storeStockArray();
+  renderStocks();
+  
   //const response = await getCurrentStockData(symbol);
   const response = await fetch(AV_API_URL + 'function=GLOBAL_QUOTE&symbol=' + symbol + '&apikey=' + API_KEY);
   const data = await response.json();
   console.log(symbol);
   makeMyStockGraph(symbol);
-  search = "stock";
 });
 
 $("#cryptoBtn").on('click', async function(event){
   event.preventDefault();
   $("svg.crypto-graph").empty();
+  //Crypto List
+  symbol = $("#cryptoSymbol").val().trim();
+  cryptoList.push(symbol);
+  storeCurrentCrypto();
+  storeCryptoArray();
+  renderCrypto();
   symbol =  symbol = $("#cryptoSymbol").val().trim();
   const response = await fetch(AV_API_URL + 'function=CURRENCY_EXCHANGE_RATE&from_currency=' + symbol + '&to_currency=USD&apikey=' + API_KEY);
   const data = await response.json();
   console.log(symbol);
   makeMyCryptoGraph(symbol);
-  search = "crypto";
 });
 
 
@@ -308,59 +392,59 @@ $("#cryptoBtn").on('click', async function(event){
 
 //local storage
 
-function createList(stockSearch) {
-  $("#stock-list").empty();
+// $("#stockBtn").on('click', function(){
+//   //$("#stock-list").empty();
 
-  let keys = Object.keys(stockSearch);
-  for (var i = 0; i < keys.length; i++) {
-    let stockLists = $("<button>");
-    stockLists.addClass("list-group-item list-group-item-action");
+//   let keys = Object.keys(stockSearch);
+//   for (var i = 0; i < keys.length; i++) {
+//     let stockLists = $("#stockBtn");
+//     stockLists.addClass("list-group-item list-group-item-action");
 
-    let splLoop = keys[i].toLowerCase().split(" ");
-    for (var j = 0; j < splLoop.length; j++) {
-      splLoop[j] =
-        splLoop[j].charAt(0).toUpperCase() + splLoop[j].substring(1);
-    }
-    let titleCasedStock = splLoop.join(" ");
-    stockLists.text(titleCasedStock);
+//     let splLoop = keys[i].toLowerCase().split(" ");
+//     for (var j = 0; j < splLoop.length; j++) {
+//       splLoop[j] =
+//         splLoop[j].charAt(0).toUpperCase() + splLoop[j].substring(1);
+//     }
+//     let titleCasedStock = splLoop.join(" ");
+//     stockLists.text(titleCasedStock);
 
-    $("#stock-list").append(stockLists);
-  }
-}
+//     $("#stock-list").append(stockLists);
+//   }
+// });
 
 
-$(document).ready(function() {
-  var stockSearchStringified = localStorage.getItem("stockSearch");
+// $(document).ready(function() {
+//   var stockSearchStringified = localStorage.getItem("stockSearch");
 
-  var stockSearch = JSON.parse(stockSearchStringified);
+//   var stockSearch = JSON.parse(stockSearchStringified);
 
-  if (stockSearch == null) {
-    stockSearch = {};
-  }
+//   if (stockSearch == null) {
+//     stockSearch = {};
+//   }
 
-  createList(stockSearch);
+//   createList(stockSearch);
 
-  $("#search-button").on("click", function(event) {
-    event.preventDefault();
-    let stock = $("#stockSymbol")
-      .val().trim()
+//   $("#search-button").on("click", function(event) {
+//     event.preventDefault();
+//     let stock = $("#stockSymbol")
+//       .val().trim()
 
-    if (stock != "") {
+//     if (stock != "") {
     
-      stockSearch[stock] = true;
-    localStorage.setItem("stockSearch", JSON.stringify(stockSearch));
+//       stockSearch[stock] = true;
+//     localStorage.setItem("stockSearch", JSON.stringify(stockSearch));
 
 
-    }
+//     }
 
-  });
+//   });
 
-  //should link to pull up same stock later
-  $("#stock-list").on("click", "button", function(event) {
-    event.preventDefault();
-    let stock = $(this).text();
+//   //should link to pull up same stock later
+//   $("#stock-list").on("click", "button", function(event) {
+//     event.preventDefault();
+//     let stock = $(this).text();
 
 
-  });
-});
+//   });
+// });
 
