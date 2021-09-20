@@ -94,12 +94,11 @@ async function getCurrentCryptoData(symbol) {
   return data;
 }
 
-
-async function makeMyGraph(symbol) {
+async function makeMyGraph(symbol, svgId) {
   d = await getStockData(symbol)
   console.log(d)
   // Step 3
-  var svg = d3.select("svg"),
+  var svg = d3.select(svgId),
     margin = 200,
     width = svg.attr("width") - margin, //300
     height = svg.attr("height") - margin //200
@@ -185,4 +184,5 @@ async function makeMyGraph(symbol) {
 
 }
 
-makeMyGraph("JBLU")
+makeMyGraph("JBLU", "#svg1")
+makeMyGraph("AMZN", "#svg2")
