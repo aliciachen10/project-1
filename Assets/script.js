@@ -76,10 +76,9 @@ function initCryptoList(){
 }
 //Searchbar Stuff
 
-async function getStockSearchResults(query) {
+async function getStockSearchResults(symbol) {
 
   const response = await fetch(AV_API_URL + 'function=SYMBOL_SEARCH&keywords=' + query + '&apikey=' + API_KEY);
-
   const data = await response.json();
 
   // console.log(data['bestMatches']);
@@ -87,7 +86,9 @@ async function getStockSearchResults(query) {
 
 }
 
-async function getCryptoSearchResults(query) {
+
+
+async function getCryptoSearchResults(symbol) {
   const response = await fetch('https://finnhub.io/api/v1/crypto/symbol?exchange=coinbase&token=c50jesqad3ic9bdl9ojg');
   const data = await response.json();
 
@@ -347,9 +348,16 @@ async function makeMyCryptoGraph(symbol) {
 // Make graphs after button click
 $("#stockBtn").on('click', async function(event){
   event.preventDefault();
-  $("svg.stock-graph").empty();
+
+  symbol = $("#stockSymbol").val().trim().toUpperCase();
+ 
+  if(symbol === ""){
+    alert("Please enter a stock to look up")
+  } else {
+    $("svg.stock-graph").empty();
+
   //Stock List
-  symbol = $("#stockSymbol").val().trim();
+  
   stockList.push(symbol);
   storeCurrentStock();
   storeStockArray();
@@ -360,22 +368,31 @@ $("#stockBtn").on('click', async function(event){
   const data = await response.json();
   console.log(symbol);
   makeMyStockGraph(symbol);
+  }
+
 });
 
 $("#cryptoBtn").on('click', async function(event){
   event.preventDefault();
+  
+  symbol = $("#cryptoSymbol").val().trim().toUpperCase();
+
+  if(symbol === ""){
+    alert("Please enter a cryptocurrency to look up")
+  } else {
   $("svg.crypto-graph").empty();
   //Crypto List
-  symbol = $("#cryptoSymbol").val().trim();
+ 
   cryptoList.push(symbol);
   storeCurrentCrypto();
   storeCryptoArray();
   renderCrypto();
-  symbol =  symbol = $("#cryptoSymbol").val().trim();
+  
   const response = await fetch(AV_API_URL + 'function=CURRENCY_EXCHANGE_RATE&from_currency=' + symbol + '&to_currency=USD&apikey=' + API_KEY);
   const data = await response.json();
   console.log(symbol);
   makeMyCryptoGraph(symbol);
+  }
 });
 
 
