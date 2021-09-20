@@ -13,6 +13,7 @@
         rel="stylesheet"
     />    
     <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="assets/jquery-3.6.0.min.js"></script>
     <title>Custom Name</title>
 </head>
 <body>
@@ -44,31 +45,21 @@
           </nav>
     </header>
     <main class="row row-cols-1 row-cols-md-4 g-4">
+<<<<<<< HEAD
     <!-- Stock Search Card -->
 
+=======
+>>>>>>> a13049617197a12e493c7ab8481a2d2bd465f2e9
     <!-- Stock Search Card -->
-
-    <!-- Search Card -->        
-
-        <div class="col-2">
-            <div class="card search-card">
-                <div class="card-body">
-                    <h5 class="card-title">Search for a Stock:</h5>
-                    <form id="user-form">
-                        <label class="form-label" for="stock"></label>
-                        <input name="stockSymbol" id="stockSymbol" type="text" autofocus="true" class="form-input" />
-                    </form>
-                    <button id="search-button" type="submit" form="user-form" value="submit" class="btn">Search</button>
-                </div>
-
     <div class="col-2">
         <div class="card stockSearch-card">
             <div class="card-body" id="stockSearch">
                 <h5 class="card-title">Search for a Stock:</h5>
-                <form id="stock-form">
+                <form>
                     <label class="form-label" for="stock"></label>
-                    <input name="stockSymbol" id="stockSymbol" type="text" autofocus="true" class="form-input" />
+                    <input name="stockSymbolForm" id="stockSymbol" type="text" autofocus="true" class="form-input" placeholder="Enter a Stock Symbol...">
                 </form>
+<<<<<<< HEAD
                 <button type="submit" form="stock-form" value="submit" class="btn">Search</button>
 
                 <button type="submit" form="stock-form" value="submit" class="btn">Search</button>
@@ -87,35 +78,33 @@
                     <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
                 </div>
 
+=======
+                <button id = 'stockBtn' type="submit" form="stock-form" value="submit" class="btn">Search</button>
+>>>>>>> a13049617197a12e493c7ab8481a2d2bd465f2e9
             </div>
             <div class="card-body">
                 <h5>Recent Stocks:</h5>
-            </div>
-        </div>
-    </div>
-    <div class="row col-8">  
-    <!--Stock Card-->
-
-    <div class="row col-8">  
-    <!--Stock Card-->
-
-    <!-- Searched Stocks Card --> 
-        <div class="col-2">
-            <div class="card searchedStocks-card">
-                <div class="card-body">
-                    <h5 class="card-title">Stocks:</h5>
-                    <ul id="stock-list" class="list-group" style="width: 7rem;"></ul>
+                <div class="stock-list" id="stock-list">
+                    
                 </div>
             </div>
         </div>
-    <!-- Bearish Stock Card -->
-    <div class="row col-10">  
+    </div>
+<<<<<<< HEAD
+    <div class="row col-8">  
+    <!--Stock Card-->
 
+=======
+>>>>>>> a13049617197a12e493c7ab8481a2d2bd465f2e9
+    <div class="row col-8">  
+    <!--Stock Card-->
         <div class="col-6">
             <div class="card stock-card">
                 <div class="card-body">
                     <h5 class="card-title"></h5>
                     <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.</p>
+                    <svg id="stock-svg"  width="500" height="400" class="stock-graph"></svg>
+                    <svg width="100%" height="100%"  viewBox="0 0 100 100"></svg>
                 </div>
             </div>
         </div>
@@ -124,9 +113,9 @@
             <div class="card crypto-card">
                 <div class="card-body">
                     <h5 class="card-title"></h5>
-                    <!-- <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p> -->
-                    <svg  width="500" height="400" class="stock-graph"></svg>
-                    <svg width="100%" height="auto" viewBox="0 0 100 100"></svg>
+                    <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    <svg id="crypto-svg" width="500" height="400" class="crypto-graph"></svg>
+                    <svg width="100%" height="100%"  viewBox="0 0 100 100"></svg>
                 </div>
             </div>
         </div>
@@ -136,21 +125,23 @@
         <div class="card cryptoSearch-card">
             <div class="card-body" id="cryptoSearch">
                 <h5 class="card-title">Search for a Crypto:</h5>
-                <form id="crypto-form">
+                <form >
                     <label class="form-label" for="crypto"></label>
-                    <input name="cryptoSymbol" id="cryptoSymbol" type="text" autofocus="true" class="form-input" />
+                    <input name="cryptoSymbolForm" id="cryptoSymbol" type="text" autofocus="true" class="form-input" placeholder="Enter a crypto symbol..."/>
                 </form>
-                <button type="submit" form="crypto-form" value="submit" class="btn">Search</button>
+                <button id = 'cryptoBtn' type="submit" form="crypto-form" value="submit" class="btn">Search</button>
             </div>
             <div class="card-body">
                 <h5>Recent Crypto:</h5>
+                <div class="crypto-list" id="crypto-list">
+
+                </div>
             </div>
         </div>
     </div>
     </main>
         
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="assets/script.js"></script>
 </body>

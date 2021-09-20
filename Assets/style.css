@@ -1,5 +1,6 @@
 :root {
 
+<<<<<<< HEAD
     --light: rgb(255, 255, 255);
     --dark: rgb(68, 68, 68);
     --border-radius: 0.2rem;
@@ -133,10 +134,12 @@
   
 /*
 
+=======
+>>>>>>> a13049617197a12e493c7ab8481a2d2bd465f2e9
   --light: rgb(255, 255, 255);
   --dark: rgb(68, 68, 68);
   --border-radius: 0.2rem;
-}*/
+}
 
 /*graph styling*/
 .stock-graph {
