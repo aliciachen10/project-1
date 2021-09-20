@@ -165,7 +165,7 @@ async function makeMyStockGraph(symbol) {
   d = await getStockData(symbol);
   console.log(d);
   // Step 3
-    var svg = d3.select("svg"),
+    var svg = d3.select("#stock-svg"),
     margin = 200,
     width = svg.attr("width") - margin, //30
     height = svg.attr("height") - margin //200
@@ -256,7 +256,7 @@ async function makeMyCryptoGraph(symbol) {
   d = await getCryptoData(symbol);
   console.log(d);
   // Step 3
-  svg = d3.select("svg"),
+  svg = d3.select("#crypto-svg"),
     margin = 200,
     width = svg.attr("width") - margin, //300
     height = svg.attr("height") - margin //200
