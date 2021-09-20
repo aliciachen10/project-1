@@ -1,6 +1,17 @@
 const AV_API_URL = 'https://www.alphavantage.co/query?';
 const API_KEY = 'iuygasod78g';
 
+const stockSymbol = document.getElementById('stockSymbol');
+const cryptoSymbol = document.getElementById('cryptoSymbol');
+const stockBtn = document.getElementById('stockBtn');
+const cryptoBtn = document.getElementById('cryptoBtn');
+var stockSvg = document.getElementById('stock-svg');
+var cryptoSvg = document.getElementById('crypto-svg');
+let symbol = "";
+let search = "";
+
+
+
 async function getStockSearchResults(query) {
 
   const response = await fetch(AV_API_URL + 'function=SYMBOL_SEARCH&keywords=' + query + '&apikey=' + API_KEY);
@@ -40,11 +51,11 @@ const response = await fetch(AV_API_URL + 'function=TIME_SERIES_DAILY&symbol=' +
 
 async function getCryptoData(symbol) {
 
-  const response = await fetch(AV_API_URL + 'function=DIGITAL_CURRENCY_DAILY&symbol=' + symbol + '&market=USD&apikey=');
+  const response = await fetch(AV_API_URL + 'function=DIGITAL_CURRENCY_DAILY&symbol=' + symbol + '&market=USD&apikey=' + API_KEY);
   const data = await response.json();
   console.log(data);
 
-  var myKeysRaw = Object.keys(data['Time Series (Digital Currency Daily)'])
+  var myKeysRaw = Object.keys(data['Time Series (Digital Currency Daily)']);
   var myKeys = []
   var myValuesRaw = []
   var myValues = []
@@ -83,19 +94,18 @@ async function getCryptoSearchResults(query) {
   return filteredResults;
 }
 
-async function makeMyGraph(data) {
-  //if (userinput )
-  //d = await getCryptoData(symbol)
-  //d = await getStockData(symbol)
-  console.log(data)
+async function makeMyStockGraph(symbol) {
+
+  d = await getStockData(symbol);
+  console.log(d);
   // Step 3
-  var svg = d3.select("svg"),
+    var svg = d3.select("svg"),
     margin = 200,
-    width = svg.attr("width") - margin, //300
+    width = svg.attr("width") - margin, //30
     height = svg.attr("height") - margin //200
 
   //get stock prices
-  var stockPrices = data.map(function (x) {
+  var stockPrices = d.map(function (x) {
     return x[1];
   })
   //get lower bound
@@ -148,7 +158,7 @@ async function makeMyGraph(data) {
   // Step 7
   svg.append('g')
     .selectAll("dot")
-    .data(data)
+    .data(d)
     .enter()
     .append("circle")
     .attr("cx", function (d) { return xScale(d[0]); })
@@ -165,7 +175,7 @@ async function makeMyGraph(data) {
     .curve(d3.curveMonotoneX)
 
   svg.append("path")
-    .datum(data)
+    .datum(d)
     .attr("class", "line")
     .attr("transform", "translate(" + 100 + "," + 100 + ")")
     .attr("d", line)
@@ -173,27 +183,128 @@ async function makeMyGraph(data) {
     .style("stroke", "#CC0000")
     .style("stroke-width", "2");
 
+    svg = stockSvg;
 }
 
-//teja & jeffery, this needs to be nodified so that search1 refers to stock graph and search2 refers cryptop graph
-search1.addEventListener('click', function(event) {
-  const symbol = event.target.value;
+async function makeMyCryptoGraph(symbol) {
+
+  d = await getCryptoData(symbol);
+  console.log(d);
+  // Step 3
+  svg = d3.select("svg"),
+    margin = 200,
+    width = svg.attr("width") - margin, //300
+    height = svg.attr("height") - margin //200
+
+  //get stock prices
+  var stockPrices = d.map(function (x) {
+    return x[1];
+  })
+  //get lower bound
+  lowerBound = Math.min(...stockPrices) - 5
+  //get upper bound
+  upperBound = Math.max(...stockPrices) + 5
+
+  // Step 4 
+  var xScale = d3.scaleLinear().domain([0, 99]).range([0, width]),
+    yScale = d3.scaleLinear().domain([lowerBound, upperBound]).range([height, 0]);
+
+  var g = svg.append("g")
+    .attr("transform", "translate(" + 100 + "," + 100 + ")");
+
+  // Step 5
+  // Title
+  svg.append('text')
+    .attr('x', width / 2 + 100)
+    .attr('y', 100)
+    .attr('text-anchor', 'middle')
+    .style('font-family', 'Helvetica')
+    .style('font-size', 20)
+    .text('Time vs. Stock Price');
+
+  // X label
+  svg.append('text')
+    .attr('x', width / 2 + 100)
+    .attr('y', height - 15 + 150)
+    .attr('text-anchor', 'middle')
+    .style('font-family', 'Helvetica')
+    .style('font-size', 12)
+    .text('History');
+
+  // Y label
+  svg.append('text')
+    .attr('text-anchor', 'middle')
+    .attr('transform', 'translate(60,' + height + ')rotate(-90)')
+    .style('font-family', 'Helvetica')
+    .style('font-size', 12)
+    .text('Stock price');
+
+  // Step 6
+  g.append("g")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(xScale));
+
+  g.append("g")
+    .call(d3.axisLeft(yScale));
+
+  // Step 7
+  svg.append('g')
+    .selectAll("dot")
+    .data(d)
+    .enter()
+    .append("circle")
+    .attr("cx", function (d) { return xScale(d[0]); })
+    .attr("cy", function (d) { return yScale(d[1]); })
+    .attr("r", 3)
+    .attr("transform", "translate(" + 100 + "," + 100 + ")")
+    .style("fill", "#CC0000");
+
+  // Step 8   
+  
+  var line = d3.line()
+    .x(function (d) { return xScale(d[0]); })
+    .y(function (d) { return yScale(d[1]); })
+    .curve(d3.curveMonotoneX)
+
+  svg.append("path")
+    .datum(d)
+    .attr("class", "line")
+    .attr("transform", "translate(" + 100 + "," + 100 + ")")
+    .attr("d", line)
+    .style("fill", "none")
+    .style("stroke", "#CC0000")
+    .style("stroke-width", "2");
+
+  svg = document.getElementById('crypto-svg');
+   
+}
+
+// Make graphs after button click
+$("#stockBtn").on('click', async function(event){
+  event.preventDefault();
+  $("svg.stock-graph").empty();
+  symbol = $("#stockSymbol").val().trim();
   //const response = await getCurrentStockData(symbol);
   const response = await fetch(AV_API_URL + 'function=GLOBAL_QUOTE&symbol=' + symbol + '&apikey=' + API_KEY);
   const data = await response.json();
-  makeMyGraph(data);
+  console.log(symbol);
+  makeMyStockGraph(symbol);
+  search = "stock";
 });
 
-search2.addEventListener('click', function(event) {
-  const symbol = event.target.value;
+$("#cryptoBtn").on('click', async function(event){
+  event.preventDefault();
+  $("svg.crypto-graph").empty();
+  symbol =  symbol = $("#cryptoSymbol").val().trim();
   const response = await fetch(AV_API_URL + 'function=CURRENCY_EXCHANGE_RATE&from_currency=' + symbol + '&to_currency=USD&apikey=' + API_KEY);
   const data = await response.json();
-  makeMyGraph(data);
+  console.log(symbol);
+  makeMyCryptoGraph(symbol);
+  search = "crypto";
 });
 
 
 
-makeMyGraph("JBLU")
 
 //local storage
 
