@@ -163,8 +163,8 @@ async function getStockData(symbol) {
   console.log(">>>>>>Opening Price>>>>>", openingPriceToday)
   var symbol = data['Meta Data']['2. Symbol']
 
-  closingPrice.innerHTML = "Close price: " + Math.round(closingPriceToday * 100) / 100;
-  openingPrice.innerHTML = "Open price: " + Math.round(openingPriceToday * 100) / 100;
+  closingPrice.innerHTML = "Close price: $" + (Math.round(closingPriceToday * 100) / 100).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  openingPrice.innerHTML = "Open price: $" + (Math.round(openingPriceToday * 100) / 100).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   stockName.innerHTML = "Name: " + symbol;
 
 
@@ -236,8 +236,8 @@ async function getCryptoData(symbol) {
   }
   var closingPriceToday = data.close;
   var currentSymbol = data.symbol;
-  cryptoOpeningPrice.innerHTML = "Open Price: " + Math.round(openingPriceToday * 100) / 100;
-  cryptoClosingPrice.innerHTML = "Close Price: " + Math.round(closingPriceToday * 100) / 100;
+  cryptoOpeningPrice.innerHTML = "Open Price: $" + (Math.round(openingPriceToday * 100) / 100).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  cryptoClosingPrice.innerHTML = "Close Price: $" + (Math.round(closingPriceToday * 100) / 100).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   cryptoSymbolName.innerHTML = "Name: " + currentSymbol;
 
   try {
@@ -323,7 +323,7 @@ async function makeMyStockGraph(symbol) {
     .attr('text-anchor', 'middle')
     .style('font-family', 'Helvetica')
     .style('font-size', 12)
-    .text('History');
+    .text('History (Days)');
 
   // Y label
   svg.append('text')
@@ -407,7 +407,7 @@ async function makeMyCryptoGraph(symbol) {
     .attr('text-anchor', 'middle')
     .style('font-family', 'Helvetica')
     .style('font-size', 20)
-    .text('Time vs. Stock Price');
+    .text('Time vs. Crypto Price');
 
   // X label
   svg.append('text')
@@ -416,7 +416,7 @@ async function makeMyCryptoGraph(symbol) {
     .attr('text-anchor', 'middle')
     .style('font-family', 'Helvetica')
     .style('font-size', 12)
-    .text('History');
+    .text('History (Days)');
 
   // Y label
   svg.append('text')
@@ -424,7 +424,7 @@ async function makeMyCryptoGraph(symbol) {
     .attr('transform', 'translate(60,' + height + ')rotate(-90)')
     .style('font-family', 'Helvetica')
     .style('font-size', 12)
-    .text('Stock price');
+    .text('Crypto price');
 
   // Step 6
   g.append("g")
