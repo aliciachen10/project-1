@@ -5,9 +5,16 @@ const stockSymbol = document.getElementById('stockSymbol');
 const cryptoSymbol = document.getElementById('cryptoSymbol');
 const stockBtn = document.getElementById('stockBtn');
 const cryptoBtn = document.getElementById('cryptoBtn');
+const closingPrice = document.getElementById('closing-price');
+const openingPrice = document.getElementById('opening-price');
+const stockName = document.getElementById('stock-name');
 var stockSvg = document.getElementById('stock-svg');
 var cryptoSvg = document.getElementById('crypto-svg');
 let symbol = "";
+
+const cryptoOpeningPrice = document.getElementById('crypto-open-price')
+const cryptoClosingPrice = document.getElementById('crypto-closing-price')
+const cryptoSymbolName = document.getElementById('crypto-symbol-name')
 
 //Local Storage Variables.
 var stockSearch;
@@ -89,30 +96,58 @@ async function getStockSearchResults(symbol) {
 
 
 async function getCryptoSearchResults(symbol) {
-  const response = await fetch('https://finnhub.io/api/v1/crypto/symbol?exchange=coinbase&token=c50jesqad3ic9bdl9ojg');
+
+  // var currentdate = moment().format('YYYY-MM-DD')
+  // change this
+  var currentdate = '2021-09-21'
+  const response = await fetch("https://api.polygon.io/v1/open-close/crypto/" + symbol + "/USD/" + currentdate +"?adjusted=true&apiKey=ZxptPjFKAncXx1Xd5fKshjIa15ZkUSGf")
+
   const data = await response.json();
-
-  var filteredResults = [];
-  for (var entry in data) {
-    // console.log(data[entry]['displaySymbol']);
-    if (data[entry]['displaySymbol'].includes('BTC')) {
-      filteredResults.push(data[entry]);
-    }
-  }
-
-  return filteredResults;
+  console.log(data)
+  var openingPriceToday = data.open;
+  var closingPriceToday = data.close;
+  var currentSymbol = data.symbol;
+  cryptoOpeningPrice.innerHTML = "Opening Price: " + openingPriceToday;
+  cryptoClosingPrice.innerHTML = "Closing Price: " + closingPriceToday;
+  cryptoSymbolName.innerHTML = "Name: " + currentSymbol;
 }
+
+// async function getCryptoSearchResults(symbol) {
+//   const response = await fetch('https://finnhub.io/api/v1/crypto/symbol?exchange=coinbase&token=c50jesqad3ic9bdl9ojg');
+//   const data = await response.json();
+
+//   var filteredResults = [];
+//   for (var entry in data) {
+//     // console.log(data[entry]['displaySymbol']);
+//     if (data[entry]['displaySymbol'].includes('BTC')) {
+//       filteredResults.push(data[entry]);
+//     }
+//   }
+
+//   return filteredResults;
+// }
 
 
 
 // Graphing Functions
 
+var closeprice;
 async function getStockData(symbol) {
 
 const response = await fetch(AV_API_URL + 'function=TIME_SERIES_DAILY&symbol=' + symbol + '&apikey=' + API_KEY);
 
   const data = await response.json();
-  console.log(data);
+  //CHANGE THIS
+  var currentdate = '2021-09-20'
+  // var currentdate = moment().format('YYYY-MM-DD')
+  var closingPriceToday = data['Time Series (Daily)'][currentdate]['4. close'];
+  var openingPriceToday = data['Time Series (Daily)'][currentdate]['1. open'];
+  var symbol = data['Meta Data']['2. Symbol']
+
+  closingPrice.innerHTML = "Closing price: " + closingPriceToday;
+  openingPrice.innerHTML = "Opening price: " + openingPriceToday;
+  stockName.innerHTML = "Name: " + symbol;
+  
 
   if (('Error Message' in data)) {
     alert("Enter a Valid Stock")
@@ -144,8 +179,6 @@ async function getCryptoData(symbol) {
 
   const response = await fetch(AV_API_URL + 'function=DIGITAL_CURRENCY_DAILY&symbol=' + symbol + '&market=USD&apikey=' + API_KEY);
   const data = await response.json();
-  console.log(data);
-  console.log(response);
 
   if (('Error Message' in data)) {
     alert("Enter a Valid Crypto")
@@ -399,9 +432,11 @@ $("#cryptoBtn").on('click', async function(event){
   storeCryptoArray();
   renderCrypto();
   console.log(symbol);
+  getCryptoSearchResults(symbol)
 
   //Make Graph
   makeMyCryptoGraph(symbol);
+  
   }
 });
 

@@ -54,9 +54,9 @@
             <div class="card stock-card">
                 <div class="card-body">
                     <h5 class="card-title"></h5>
-                    <p class="card-text">Name:</p>
-                    <p class="card-text">Current Price:</p>
-                    <p class="card-text">30 Day Low:</p>
+                    <p class="card-text" id="stock-name">Name:</p>
+                    <p class="card-text" id="closing-price">Closing Price:</p>
+                    <p class="card-text" id="opening-price">Opening Price:</p>
                     <p class="card-text">30 Day High:</p>
                     <svg id="stock-svg"  width="500" height="400" class="stock-graph"></svg>
                     <!-- <svg width="100%" height="100%"  viewBox="0 0 100 100"></svg> -->
@@ -65,18 +65,19 @@
         </div>
         <!-- Crypto Card -->
         <div class="col-6">
-            <div class="card crypto-card">
-                <div class="card-body">
-                    <h5 class="card-title"></h5>
-                    <p class="card-text">Name:</p>
-                    <p class="card-text">Current Price:</p>
-                    <p class="card-text">30 Day Low:</p>
-                    <p class="card-text">30 Day High:</p>
-                    <svg id="crypto-svg" width="500" height="400" class="crypto-graph"></svg>
-                    <!-- <svg width="100%" height="100%"  viewBox="0 0 100 100"></svg> -->
-                </div>
-            </div>
-        </div>
+          <div class="card crypto-card">
+              <div class="card-body">
+                  <h5 class="card-title"></h5>
+                  <p id ="crypto-symbol-name" class="card-text">Name:</p>
+                  <p id="crypto-open-price" class="card-text">Open Price:</p>
+                  <p id="crypto-closing-price" class="card-text">Closing Price:</p>
+                  <p class="card-text">30 Day Low:</p>
+                  <p class="card-text">30 Day High:</p>
+                  <svg id="crypto-svg" width="500" height="400" class="crypto-graph"></svg>
+                  <!-- <svg width="100%" height="100%"  viewBox="0 0 100 100"></svg> -->
+              </div>
+          </div>
+      </div>
         <div class="col-6">
             <div class="card" id="stockInfo">
                 <img src="assets/stocks.jpg" class="card-img-top" alt="stock market" height="300">
