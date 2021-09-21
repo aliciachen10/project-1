@@ -94,7 +94,7 @@ margin-bottom: 0;
 
 .card.stockSearch-card,
 .card.cryptoSearch-card {
-  height: 96vh;
+  height: 100vh;
 }
 /* Top Border for the First Card Group */
 .card.stock-card,
