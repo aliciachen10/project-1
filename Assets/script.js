@@ -15,6 +15,9 @@ let symbol = "";
 const cryptoOpeningPrice = document.getElementById('crypto-open-price')
 const cryptoClosingPrice = document.getElementById('crypto-closing-price')
 const cryptoSymbolName = document.getElementById('crypto-symbol-name')
+// cityButtons.addEventListener('click', handleSearchHistoryClick);
+var stockListArea = document.getElementById('stock-list')
+var cryptoListArea = document.getElementById('crypto-list')
 
 //Local Storage Variables.
 var stockSearch;
@@ -62,6 +65,8 @@ function storeCurrentStock() {
 function storeCurrentCrypto(){
   localStorage.setItem("currentcrypto", JSON.stringify(cryptoSearch));
 }     
+
+
 //Pull from local storage
 function initStockList(){
   var storedStocks = JSON.parse(localStorage.getItem("stocks"));
@@ -92,8 +97,6 @@ async function getStockSearchResults(symbol) {
   return data['bestMatches'];
 
 }
-
-
 
 async function getCryptoSearchResults(symbol) {
 
@@ -210,12 +213,15 @@ async function makeMyStockGraph(symbol) {
 
   d = await getStockData(symbol);
   console.log(d);
+
+  // d3.selectAll("svg > *").remove();
   // Step 3
     var svg = d3.select("#stock-svg"),
     margin = 200,
     width = svg.attr("width") - margin, //30
     height = svg.attr("height") - margin //200
 
+    svg.selectAll("*").remove();
   //get stock prices
   var stockPrices = d.map(function (x) {
     return x[1];
@@ -307,6 +313,8 @@ async function makeMyCryptoGraph(symbol) {
     width = svg.attr("width") - margin, //300
     height = svg.attr("height") - margin //200
 
+  svg.selectAll("*").remove();
+
   //get stock prices
   var stockPrices = d.map(function (x) {
     return x[1];
@@ -390,7 +398,7 @@ async function makeMyCryptoGraph(symbol) {
    
 }
 
-// Make graphs after button click
+// Make graphs after submit button click
 $("#stockBtn").on('click', async function(event){
   event.preventDefault();
 
@@ -406,7 +414,7 @@ $("#stockBtn").on('click', async function(event){
   stockList.push(symbol);
   storeCurrentStock();
   storeStockArray();
-  renderStocks();
+  //renderStocks(); //chanage
 
   // Make Graph 
   console.log(symbol);
@@ -454,3 +462,28 @@ $("#cryptoSymbol").keypress(function(e){
       $("#cryptoBtn").click();
   }
 })
+
+initStockList()
+initCryptoList()
+
+//transforms user's click on the city buttons into a value that can be passed to getapi function
+function handleSearchHistoryClickStock(event) {
+  if (event.target.matches('.list-group-item')) {
+    var button = event.target;
+    var symbol = button.getAttribute('data-name');
+    // getApi(searchTerm);
+    makeMyStockGraph(symbol);
+  }
+}
+
+function handleSearchHistoryClickCrypto(event) {
+  if (event.target.matches('.list-group-item')) {
+    var button = event.target;
+    var symbol = button.getAttribute('data-name');
+    // getApi(searchTerm);
+    makeMyCryptoGraph(symbol);
+  }
+}
+
+stockListArea.addEventListener('click', handleSearchHistoryClickStock)
+cryptoListArea.addEventListener('click', handleSearchHistoryClickCrypto)
