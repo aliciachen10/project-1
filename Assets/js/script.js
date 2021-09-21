@@ -12,9 +12,6 @@ var stockSvg = document.getElementById('stock-svg');
 var cryptoSvg = document.getElementById('crypto-svg');
 let symbol = "";
 
-const cryptoOpeningPrice = document.getElementById('crypto-open-price')
-const cryptoClosingPrice = document.getElementById('crypto-closing-price')
-const cryptoSymbolName = document.getElementById('crypto-symbol-name')
 // cityButtons.addEventListener('click', handleSearchHistoryClick);
 var stockListArea = document.getElementById('stock-list')
 var cryptoListArea = document.getElementById('crypto-list')
@@ -24,6 +21,8 @@ var stockSearch;
 var stockList = [];
 var cryptoSearch;
 var cryptoList = [];
+
+var currentdate = moment().subtract(1,'days').format('YYYY-MM-DD')
 
 //modal
 
@@ -123,23 +122,6 @@ async function getStockSearchResults(symbol) {
 
 }
 
-async function getCryptoSearchResults(symbol) {
-
-  // var currentdate = moment().format('YYYY-MM-DD')
-  // change this
-  // var currentdate = '2021-09-21'
-  // const response = await fetch("https://api.polygon.io/v1/open-close/crypto/" + symbol + "/USD/" + currentdate +"?adjusted=true&apiKey=ZxptPjFKAncXx1Xd5fKshjIa15ZkUSGf")
-
-  // const data = await response.json();
-  // console.log(data)
-  // var openingPriceToday = data.open;
-  // var closingPriceToday = data.close;
-  // var currentSymbol = data.symbol;
-  // cryptoOpeningPrice.innerHTML = "Open Price: " + openingPriceToday;
-  // cryptoClosingPrice.innerHTML = "Close Price: " + closingPriceToday;
-  // cryptoSymbolName.innerHTML = "Name: " + currentSymbol;
-}
-
 // async function getCryptoSearchResults(symbol) {
 //   const response = await fetch('https://finnhub.io/api/v1/crypto/symbol?exchange=coinbase&token=c50jesqad3ic9bdl9ojg');
 //   const data = await response.json();
@@ -155,8 +137,6 @@ async function getCryptoSearchResults(symbol) {
 //   return filteredResults;
 // }
 
-
-
 // Graphing Functions
 
 var closeprice;
@@ -166,8 +146,8 @@ async function getStockData(symbol) {
 
   const data = await response.json();
   //CHANGE THIS
-  var currentdate = '2021-09-20'
-  // var currentdate = moment().format('YYYY-MM-DD')
+  // var currentdate = '2021-09-20'
+  
   console.log(">>>troubleshooting the error>>>", data['Time Series (Daily)'])
   try { 
     var closingPriceToday = data['Time Series (Daily)'][currentdate]['4. close']; 
@@ -183,8 +163,8 @@ async function getStockData(symbol) {
   console.log(">>>>>>Opening Price>>>>>", openingPriceToday)
   var symbol = data['Meta Data']['2. Symbol']
 
-  closingPrice.innerHTML = "Close price: " + closingPriceToday;
-  openingPrice.innerHTML = "Open price: " + openingPriceToday;
+  closingPrice.innerHTML = "Close price: " + Math.round(closingPriceToday*100)/100;
+  openingPrice.innerHTML = "Open price: " + Math.round(openingPriceToday*100)/100;
   stockName.innerHTML = "Name: " + symbol;
 
 
@@ -217,11 +197,14 @@ async function getStockData(symbol) {
 };
 
 async function getCryptoData(symbol) {
+  const cryptoOpeningPrice = document.getElementById('crypto-open-price')
+  const cryptoClosingPrice = document.getElementById('crypto-closing-price')
+  const cryptoSymbolName = document.getElementById('crypto-symbol-name')
 
   const av_response = await fetch(AV_API_URL + 'function=DIGITAL_CURRENCY_DAILY&symbol=' + symbol + '&market=USD&apikey=' + API_KEY);
   const av_data = await av_response.json();
 
-  var currentdate = '2021-09-21'
+  // var currentdate = '2021-09-21'
   const response = await fetch("https://api.polygon.io/v1/open-close/crypto/" + symbol + "/USD/" + currentdate + "?adjusted=true&apiKey=JbwfTCNLbxUiMAU8m2HpWwwqdlMrRWe6")
 
   const data = await response.json();
@@ -240,13 +223,16 @@ async function getCryptoData(symbol) {
     var openingPriceToday = data.open;
   }
   catch(err) {
-    closingPrice.innerHTML = "EXCEEDED"
+    modal.style.display = "block";
+    
+    d3.select("#stock-svg").selectAll("*").remove()
+    // closingPrice.innerHTML = "EXCEEDED"
     // alert = "You have exceeded the # of crypto API calls per minute. Wait a minute before searching again" + err;
   }
   var closingPriceToday = data.close;
   var currentSymbol = data.symbol;
-  cryptoOpeningPrice.innerHTML = "Open Price: " + openingPriceToday;
-  cryptoClosingPrice.innerHTML = "Close Price: " + closingPriceToday;
+  cryptoOpeningPrice.innerHTML = "Open Price: " + Math.round(openingPriceToday*100)/100;
+  cryptoClosingPrice.innerHTML = "Close Price: " + Math.round(closingPriceToday*100)/100;
   cryptoSymbolName.innerHTML = "Name: " + currentSymbol;
 
   try {
