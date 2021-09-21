@@ -94,7 +94,7 @@ margin-bottom: 0;
 
 .card.stockSearch-card,
 .card.cryptoSearch-card {
-  height: 96vh;
+  height: 100%;
 }
 /* Top Border for the First Card Group */
 .card.stock-card,
@@ -106,7 +106,7 @@ margin-bottom: 0;
 }
 
 .footer {
-  height: 4vh;
+  height: 2vh;
 }
 
 #footer-text {
