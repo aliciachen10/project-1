@@ -143,8 +143,12 @@ const response = await fetch(AV_API_URL + 'function=TIME_SERIES_DAILY&symbol=' +
   //CHANGE THIS
   var currentdate = '2021-09-20'
   // var currentdate = moment().format('YYYY-MM-DD')
-  var closingPriceToday = data['Time Series (Daily)'][currentdate]['4. close'];
+  console.log(">>>troubleshooting the error>>>", data['Time Series (Daily)'])
+  try {var closingPriceToday = data['Time Series (Daily)'][currentdate]['4. close'];}
+  catch{window.alert("you have reached the api limit for now, or your symbol was incorrect. wait a minute to do another call.")} 
+  console.log(">>>>>Closing price>>>>>", closingPriceToday)
   var openingPriceToday = data['Time Series (Daily)'][currentdate]['1. open'];
+  console.log(">>>>>>Opening Price>>>>>", openingPriceToday)
   var symbol = data['Meta Data']['2. Symbol']
 
   closingPrice.innerHTML = "Close price: " + closingPriceToday;
@@ -184,7 +188,7 @@ async function getCryptoData(symbol) {
   const av_data = await av_response.json();
 
   var currentdate = '2021-09-21'
-  const response = await fetch("https://api.polygon.io/v1/open-close/crypto/" + symbol + "/USD/" + currentdate +"?adjusted=true&apiKey=ZxptPjFKAncXx1Xd5fKshjIa15ZkUSGf")
+  const response = await fetch("https://api.polygon.io/v1/open-close/crypto/" + symbol + "/USD/" + currentdate +"?adjusted=true&apiKey=JbwfTCNLbxUiMAU8m2HpWwwqdlMrRWe6")
 
   const data = await response.json();
 
@@ -192,8 +196,16 @@ async function getCryptoData(symbol) {
     alert("Enter a Valid Crypto")
     return;
   };
-  console.log(data)
+  // console.log(data)
+
+  // if (response.status !== 200) {
+  //   window.alert = "You have exceeded the # of API calls per minute. Wait a minute before searching another stock";
+  // }
   var openingPriceToday = data.open;
+
+  if (typeof openingPriceToday === 'undefined') {
+    window.alert = "You have exceeded the # of API calls per minute. Wait a minute before searching again";
+  }
   var closingPriceToday = data.close;
   var currentSymbol = data.symbol;
   cryptoOpeningPrice.innerHTML = "Open Price: " + openingPriceToday;
@@ -201,6 +213,10 @@ async function getCryptoData(symbol) {
   cryptoSymbolName.innerHTML = "Name: " + currentSymbol;
 
   var myKeysRaw = Object.keys(av_data['Time Series (Digital Currency Daily)']);
+
+  if (typeof myKeysRaw == 'undefined' ) {
+    window.alert = "You have exceeded the # of API calls per minute. Wait a minute before searching again";
+  }
   var myKeys = []
   var myValuesRaw = []
   var myValues = []
@@ -224,7 +240,7 @@ async function getCryptoData(symbol) {
 async function makeMyStockGraph(symbol) {
 
   d = await getStockData(symbol);
-  console.log(d);
+  // console.log(d);
 
   // d3.selectAll("svg > *").remove();
   // Step 3
@@ -318,7 +334,7 @@ async function makeMyStockGraph(symbol) {
 async function makeMyCryptoGraph(symbol) {
 
   d = await getCryptoData(symbol);
-  console.log(d);
+  // console.log(d);
   // Step 3
   svg = d3.select("#crypto-svg"),
     margin = 200,
@@ -426,10 +442,10 @@ $("#stockBtn").on('click', async function(event){
   stockList.push(symbol);
   storeCurrentStock();
   storeStockArray();
-  //renderStocks(); //chanage
+  renderStocks();
 
   // Make Graph 
-  console.log(symbol);
+  // console.log(symbol);
   makeMyStockGraph(symbol);
   }
 
@@ -451,7 +467,7 @@ $("#cryptoBtn").on('click', async function(event){
   storeCurrentCrypto();
   storeCryptoArray();
   renderCrypto();
-  console.log(symbol);
+  // console.log(symbol);
   // getCryptoSearchResults(symbol)
   getCryptoData(symbol)
 
