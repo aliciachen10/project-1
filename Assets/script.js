@@ -102,17 +102,17 @@ async function getCryptoSearchResults(symbol) {
 
   // var currentdate = moment().format('YYYY-MM-DD')
   // change this
-  var currentdate = '2021-09-21'
-  const response = await fetch("https://api.polygon.io/v1/open-close/crypto/" + symbol + "/USD/" + currentdate +"?adjusted=true&apiKey=ZxptPjFKAncXx1Xd5fKshjIa15ZkUSGf")
+  // var currentdate = '2021-09-21'
+  // const response = await fetch("https://api.polygon.io/v1/open-close/crypto/" + symbol + "/USD/" + currentdate +"?adjusted=true&apiKey=ZxptPjFKAncXx1Xd5fKshjIa15ZkUSGf")
 
-  const data = await response.json();
-  console.log(data)
-  var openingPriceToday = data.open;
-  var closingPriceToday = data.close;
-  var currentSymbol = data.symbol;
-  cryptoOpeningPrice.innerHTML = "Opening Price: " + openingPriceToday;
-  cryptoClosingPrice.innerHTML = "Closing Price: " + closingPriceToday;
-  cryptoSymbolName.innerHTML = "Name: " + currentSymbol;
+  // const data = await response.json();
+  // console.log(data)
+  // var openingPriceToday = data.open;
+  // var closingPriceToday = data.close;
+  // var currentSymbol = data.symbol;
+  // cryptoOpeningPrice.innerHTML = "Open Price: " + openingPriceToday;
+  // cryptoClosingPrice.innerHTML = "Close Price: " + closingPriceToday;
+  // cryptoSymbolName.innerHTML = "Name: " + currentSymbol;
 }
 
 // async function getCryptoSearchResults(symbol) {
@@ -147,8 +147,8 @@ const response = await fetch(AV_API_URL + 'function=TIME_SERIES_DAILY&symbol=' +
   var openingPriceToday = data['Time Series (Daily)'][currentdate]['1. open'];
   var symbol = data['Meta Data']['2. Symbol']
 
-  closingPrice.innerHTML = "Closing price: " + closingPriceToday;
-  openingPrice.innerHTML = "Opening price: " + openingPriceToday;
+  closingPrice.innerHTML = "Close price: " + closingPriceToday;
+  openingPrice.innerHTML = "Open price: " + openingPriceToday;
   stockName.innerHTML = "Name: " + symbol;
   
 
@@ -180,15 +180,27 @@ const response = await fetch(AV_API_URL + 'function=TIME_SERIES_DAILY&symbol=' +
 
 async function getCryptoData(symbol) {
 
-  const response = await fetch(AV_API_URL + 'function=DIGITAL_CURRENCY_DAILY&symbol=' + symbol + '&market=USD&apikey=' + API_KEY);
+  const av_response = await fetch(AV_API_URL + 'function=DIGITAL_CURRENCY_DAILY&symbol=' + symbol + '&market=USD&apikey=' + API_KEY);
+  const av_data = await av_response.json();
+
+  var currentdate = '2021-09-21'
+  const response = await fetch("https://api.polygon.io/v1/open-close/crypto/" + symbol + "/USD/" + currentdate +"?adjusted=true&apiKey=ZxptPjFKAncXx1Xd5fKshjIa15ZkUSGf")
+
   const data = await response.json();
 
   if (('Error Message' in data)) {
     alert("Enter a Valid Crypto")
     return;
   };
+  console.log(data)
+  var openingPriceToday = data.open;
+  var closingPriceToday = data.close;
+  var currentSymbol = data.symbol;
+  cryptoOpeningPrice.innerHTML = "Open Price: " + openingPriceToday;
+  cryptoClosingPrice.innerHTML = "Close Price: " + closingPriceToday;
+  cryptoSymbolName.innerHTML = "Name: " + currentSymbol;
 
-  var myKeysRaw = Object.keys(data['Time Series (Digital Currency Daily)']);
+  var myKeysRaw = Object.keys(av_data['Time Series (Digital Currency Daily)']);
   var myKeys = []
   var myValuesRaw = []
   var myValues = []
@@ -198,7 +210,7 @@ async function getCryptoData(symbol) {
   }
 
   for (var i = 0; i < myKeys.length; i++) {
-    myValuesRaw.push(data['Time Series (Digital Currency Daily)'][myKeysRaw[i]]['4a. close (USD)']);
+    myValuesRaw.push(av_data['Time Series (Digital Currency Daily)'][myKeysRaw[i]]['4a. close (USD)']);
     myValues.push(parseFloat(myValuesRaw[i]))
   }
 
@@ -440,7 +452,8 @@ $("#cryptoBtn").on('click', async function(event){
   storeCryptoArray();
   renderCrypto();
   console.log(symbol);
-  getCryptoSearchResults(symbol)
+  // getCryptoSearchResults(symbol)
+  getCryptoData(symbol)
 
   //Make Graph
   makeMyCryptoGraph(symbol);
