@@ -25,62 +25,87 @@ var stockList = [];
 var cryptoSearch;
 var cryptoList = [];
 
+//modal
+
+// Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+
 //Enter searced Stock into DOM
-function renderStocks(){
+function renderStocks() {
   $("#stock-list").empty();
   $("#stockSymbol").val("");
-  
-  for (i=0; i<stockList.length; i++){
-      var a = $("<div.stocklist>");
-      a.addClass("list-group-item");
-      a.attr("data-name", stockList[i]);
-      a.text(stockList[i]);
-      $("#stock-list").prepend(a);
-  } 
+
+  for (i = 0; i < stockList.length; i++) {
+    var a = $("<div.stocklist>");
+    a.addClass("list-group-item");
+    a.attr("data-name", stockList[i]);
+    a.text(stockList[i]);
+    $("#stock-list").prepend(a);
+  }
 }
 //Crypto into DOM
-function renderCrypto(){
+function renderCrypto() {
   $("#crypto-list").empty();
   $("#cryptoSymbol").val("");
-  
-  for (i=0; i<cryptoList.length; i++){
-      var a = $("<div.crypto-list>");
-      a.addClass("list-group-item");
-      a.attr("data-name", cryptoList[i]);
-      a.text(cryptoList[i]);
-      $("#crypto-list").prepend(a);
-  } 
+
+  for (i = 0; i < cryptoList.length; i++) {
+    var a = $("<div.crypto-list>");
+    a.addClass("list-group-item");
+    a.attr("data-name", cryptoList[i]);
+    a.text(cryptoList[i]);
+    $("#crypto-list").prepend(a);
+  }
 }
 //Save to local array
 function storeStockArray() {
   localStorage.setItem("stocks", JSON.stringify(stockList));
-  }
+}
 function storeCryptoArray() {
-    localStorage.setItem("cryptos", JSON.stringify(cryptoList));
-    }
+  localStorage.setItem("cryptos", JSON.stringify(cryptoList));
+}
 function storeCurrentStock() {
 
-      localStorage.setItem("currentstock", JSON.stringify(stockSearch));
-  }
-function storeCurrentCrypto(){
+  localStorage.setItem("currentstock", JSON.stringify(stockSearch));
+}
+function storeCurrentCrypto() {
+  // if ()
   localStorage.setItem("currentcrypto", JSON.stringify(cryptoSearch));
-}     
+}
 
 
 //Pull from local storage
-function initStockList(){
+function initStockList() {
   var storedStocks = JSON.parse(localStorage.getItem("stocks"));
 
-  if (storedStocks !== null){
+  if (storedStocks !== null) {
     stockList = storedStocks;
   }
 
   renderStocks();
 }
-function initCryptoList(){
+function initCryptoList() {
   var storedCrypto = JSON.parse(localStorage.getItem("cryptos"));
 
-  if (storedCrypto !== null){
+  if (storedCrypto !== null) {
     cryptoList = storedCrypto;
   }
 
@@ -137,15 +162,22 @@ async function getCryptoSearchResults(symbol) {
 var closeprice;
 async function getStockData(symbol) {
 
-const response = await fetch(AV_API_URL + 'function=TIME_SERIES_DAILY&symbol=' + symbol + '&apikey=' + API_KEY);
+  const response = await fetch(AV_API_URL + 'function=TIME_SERIES_DAILY&symbol=' + symbol + '&apikey=' + API_KEY);
 
   const data = await response.json();
   //CHANGE THIS
   var currentdate = '2021-09-20'
   // var currentdate = moment().format('YYYY-MM-DD')
   console.log(">>>troubleshooting the error>>>", data['Time Series (Daily)'])
-  try {var closingPriceToday = data['Time Series (Daily)'][currentdate]['4. close'];}
-  catch{window.alert("you have reached the api limit for now, or your symbol was incorrect. wait a minute to do another call.")} 
+  try { 
+    var closingPriceToday = data['Time Series (Daily)'][currentdate]['4. close']; 
+  }
+  catch(err) { 
+    // closingPrice.innerHTML = "ALERT"
+    // When the user clicks on the button, open the modal
+    modal.style.display = "block";
+    // alert("you have reached the api limit for now, or your symbol was incorrect. wait a minute to do another call." + err) 
+  }
   console.log(">>>>>Closing price>>>>>", closingPriceToday)
   var openingPriceToday = data['Time Series (Daily)'][currentdate]['1. open'];
   console.log(">>>>>>Opening Price>>>>>", openingPriceToday)
@@ -154,10 +186,12 @@ const response = await fetch(AV_API_URL + 'function=TIME_SERIES_DAILY&symbol=' +
   closingPrice.innerHTML = "Close price: " + closingPriceToday;
   openingPrice.innerHTML = "Open price: " + openingPriceToday;
   stockName.innerHTML = "Name: " + symbol;
-  
+
 
   if (('Error Message' in data)) {
-    alert("Enter a Valid Stock")
+    // When the user clicks on the button, open the modal
+    modal.style.display = "block";
+    // alert("Enter a Valid Stock")
     return;
   };
 
@@ -188,23 +222,26 @@ async function getCryptoData(symbol) {
   const av_data = await av_response.json();
 
   var currentdate = '2021-09-21'
-  const response = await fetch("https://api.polygon.io/v1/open-close/crypto/" + symbol + "/USD/" + currentdate +"?adjusted=true&apiKey=JbwfTCNLbxUiMAU8m2HpWwwqdlMrRWe6")
+  const response = await fetch("https://api.polygon.io/v1/open-close/crypto/" + symbol + "/USD/" + currentdate + "?adjusted=true&apiKey=JbwfTCNLbxUiMAU8m2HpWwwqdlMrRWe6")
 
   const data = await response.json();
 
   if (('Error Message' in data)) {
-    alert("Enter a Valid Crypto")
+    modal.style.display = "block";
+    // alert("Enter a Valid Crypto")
     return;
   };
   // console.log(data)
 
   // if (response.status !== 200) {
-  //   window.alert = "You have exceeded the # of API calls per minute. Wait a minute before searching another stock";
+  //   alert = "You have exceeded the # of API calls per minute. Wait a minute before searching another stock";
   // }
-  var openingPriceToday = data.open;
-
-  if (typeof openingPriceToday === 'undefined') {
-    window.alert = "You have exceeded the # of API calls per minute. Wait a minute before searching again";
+  try {
+    var openingPriceToday = data.open;
+  }
+  catch(err) {
+    closingPrice.innerHTML = "EXCEEDED"
+    // alert = "You have exceeded the # of crypto API calls per minute. Wait a minute before searching again" + err;
   }
   var closingPriceToday = data.close;
   var currentSymbol = data.symbol;
@@ -212,23 +249,35 @@ async function getCryptoData(symbol) {
   cryptoClosingPrice.innerHTML = "Close Price: " + closingPriceToday;
   cryptoSymbolName.innerHTML = "Name: " + currentSymbol;
 
-  var myKeysRaw = Object.keys(av_data['Time Series (Digital Currency Daily)']);
-
-  if (typeof myKeysRaw == 'undefined' ) {
-    window.alert = "You have exceeded the # of API calls per minute. Wait a minute before searching again";
+  try {
+    var myKeysRaw = Object.keys(av_data['Time Series (Digital Currency Daily)']);
+  }
+  catch (err) {
+    modal.style.display = "block";
+    // alert = "too many API calls, or you spelled something wrong!" + err
+  }
+  if (typeof myKeysRaw == 'undefined') {
+    modal.style.display = "block";
+    // closingPrice.innerHTML = "ALERT"
+    // alert = "You have exceeded the # of API calls per minute. Wait a minute before searching again" ;
   }
   var myKeys = []
   var myValuesRaw = []
   var myValues = []
-  
+
   for (var i = 0; i < 100; i++) {
     myKeys.push(i)
   }
-
+try {
   for (var i = 0; i < myKeys.length; i++) {
     myValuesRaw.push(av_data['Time Series (Digital Currency Daily)'][myKeysRaw[i]]['4a. close (USD)']);
     myValues.push(parseFloat(myValuesRaw[i]))
   }
+} catch {
+  modal.style.display = "block";
+  // closingPrice.innerHTML = "ALERT"
+  // alert("no data! try again")
+}
 
   var graphPoints = myKeys.map(function (e, i) {
     return ([e, myValues[i]]);
@@ -244,12 +293,12 @@ async function makeMyStockGraph(symbol) {
 
   // d3.selectAll("svg > *").remove();
   // Step 3
-    var svg = d3.select("#stock-svg"),
+  var svg = d3.select("#stock-svg"),
     margin = 200,
     width = svg.attr("width") - margin, //30
     height = svg.attr("height") - margin //200
 
-    svg.selectAll("*").remove();
+  svg.selectAll("*").remove();
   //get stock prices
   var stockPrices = d.map(function (x) {
     return x[1];
@@ -314,7 +363,7 @@ async function makeMyStockGraph(symbol) {
     .style("fill", "#CC0000");
 
   // Step 8   
-  
+
   var line = d3.line()
     .x(function (d) { return xScale(d[0]); })
     .y(function (d) { return yScale(d[1]); })
@@ -407,7 +456,7 @@ async function makeMyCryptoGraph(symbol) {
     .style("fill", "#CC0000");
 
   // Step 8   
-  
+
   var line = d3.line()
     .x(function (d) { return xScale(d[0]); })
     .y(function (d) { return yScale(d[1]); })
@@ -422,73 +471,77 @@ async function makeMyCryptoGraph(symbol) {
     .style("stroke", "#CC0000")
     .style("stroke-width", "2");
 
-  
-   
+
+
 }
 
 // Make graphs after submit button click
-$("#stockBtn").on('click', async function(event){
+$("#stockBtn").on('click', async function (event) {
   event.preventDefault();
 
   symbol = $("#stockSymbol").val().trim().toUpperCase();
- 
-  if(symbol === ""){
-    alert("Please enter a stock to look up")
+
+  if (symbol === "") {
+    modal.style.display = "block";
+    // alert("Please enter a stock to look up")
   } else {
     $("svg.stock-graph").empty();
 
-  //Stock List
-  
-  stockList.push(symbol);
-  storeCurrentStock();
-  storeStockArray();
-  renderStocks();
+    //Stock List
+    if (!stockList.includes(symbol)) {
+      stockList.push(symbol);
+      renderStocks();
+    }
+    storeCurrentStock();
+    storeStockArray();
 
-  // Make Graph 
-  // console.log(symbol);
-  makeMyStockGraph(symbol);
+    // Make Graph 
+    // console.log(symbol);
+    makeMyStockGraph(symbol);
   }
 
 });
 
-$("#cryptoBtn").on('click', async function(event){
+$("#cryptoBtn").on('click', async function (event) {
   event.preventDefault();
-  
+
   symbol = $("#cryptoSymbol").val().trim().toUpperCase();
 
-  if(symbol === ""){
-    alert("Please enter a cryptocurrency to look up")
+  if (symbol === "") {
+    modal.style.display = "block";
+    // alert("Please enter a cryptocurrency to look up")
   } else {
-  $("svg.crypto-graph").empty();
-  
-  //Crypto List
- 
-  cryptoList.push(symbol);
-  storeCurrentCrypto();
-  storeCryptoArray();
-  renderCrypto();
-  // console.log(symbol);
-  // getCryptoSearchResults(symbol)
-  getCryptoData(symbol)
+    $("svg.crypto-graph").empty();
 
-  //Make Graph
-  makeMyCryptoGraph(symbol);
-  
+    //Crypto List
+    if (!cryptoList.includes(symbol)) {
+      cryptoList.push(symbol);
+      renderCrypto();
+    }
+    storeCurrentCrypto();
+    storeCryptoArray();
+    // console.log(symbol);
+    // getCryptoSearchResults(symbol)
+    getCryptoData(symbol)
+
+    //Make Graph
+    makeMyCryptoGraph(symbol);
+
   }
 });
 
 //Event handler for if the user hits enter
-$("#stockSymbol").keypress(function(e){
-  if(e.which == 13){
+$("#stockSymbol").keypress(function (e) {
+  if (e.which == 13) {
     e.preventDefault();
-      $("#stockBtn").click();
+    $("#stockBtn").click();
   }
 })
 
-$("#cryptoSymbol").keypress(function(e){
-  if(e.which == 13){
+$("#cryptoSymbol").keypress(function (e) {
+  if (e.which == 13) {
     e.preventDefault();
-      $("#cryptoBtn").click();
+    $("#cryptoBtn").click();
   }
 })
 
