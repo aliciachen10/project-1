@@ -22,7 +22,7 @@ var stockList = [];
 var cryptoSearch;
 var cryptoList = [];
 
-var currentdate = moment().subtract(1,'days').format('YYYY-MM-DD')
+var currentdate = moment().subtract(1, 'days').format('YYYY-MM-DD')
 
 //modal
 
@@ -36,12 +36,12 @@ var btn = document.getElementById("myBtn");
 var span = document.getElementsByClassName("close")[0];
 
 // When the user clicks on <span> (x), close the modal
-span.onclick = function() {
+span.onclick = function () {
   modal.style.display = "none";
 }
 
 // When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
+window.onclick = function (event) {
   if (event.target == modal) {
     modal.style.display = "none";
   }
@@ -147,12 +147,12 @@ async function getStockData(symbol) {
   const data = await response.json();
   //CHANGE THIS
   // var currentdate = '2021-09-20'
-  
+
   console.log(">>>troubleshooting the error>>>", data['Time Series (Daily)'])
-  try { 
-    var closingPriceToday = data['Time Series (Daily)'][currentdate]['4. close']; 
+  try {
+    var closingPriceToday = data['Time Series (Daily)'][currentdate]['4. close'];
   }
-  catch(err) { 
+  catch (err) {
     // closingPrice.innerHTML = "ALERT"
     // When the user clicks on the button, open the modal
     modal.style.display = "block";
@@ -163,8 +163,8 @@ async function getStockData(symbol) {
   console.log(">>>>>>Opening Price>>>>>", openingPriceToday)
   var symbol = data['Meta Data']['2. Symbol']
 
-  closingPrice.innerHTML = "Close price: " + Math.round(closingPriceToday*100)/100;
-  openingPrice.innerHTML = "Open price: " + Math.round(openingPriceToday*100)/100;
+  closingPrice.innerHTML = "Close price: " + Math.round(closingPriceToday * 100) / 100;
+  openingPrice.innerHTML = "Open price: " + Math.round(openingPriceToday * 100) / 100;
   stockName.innerHTML = "Name: " + symbol;
 
 
@@ -204,6 +204,11 @@ async function getCryptoData(symbol) {
   const av_response = await fetch(AV_API_URL + 'function=DIGITAL_CURRENCY_DAILY&symbol=' + symbol + '&market=USD&apikey=' + API_KEY);
   const av_data = await av_response.json();
 
+  if (('Error Message' in av_data)) {
+    modal.style.display = "block";
+    // alert("Enter a Valid Crypto")
+    return;}
+
   // var currentdate = '2021-09-21'
   const response = await fetch("https://api.polygon.io/v1/open-close/crypto/" + symbol + "/USD/" + currentdate + "?adjusted=true&apiKey=JbwfTCNLbxUiMAU8m2HpWwwqdlMrRWe6")
 
@@ -222,17 +227,17 @@ async function getCryptoData(symbol) {
   try {
     var openingPriceToday = data.open;
   }
-  catch(err) {
+  catch (err) {
     modal.style.display = "block";
-    
+
     d3.select("#stock-svg").selectAll("*").remove()
     // closingPrice.innerHTML = "EXCEEDED"
     // alert = "You have exceeded the # of crypto API calls per minute. Wait a minute before searching again" + err;
   }
   var closingPriceToday = data.close;
   var currentSymbol = data.symbol;
-  cryptoOpeningPrice.innerHTML = "Open Price: " + Math.round(openingPriceToday*100)/100;
-  cryptoClosingPrice.innerHTML = "Close Price: " + Math.round(closingPriceToday*100)/100;
+  cryptoOpeningPrice.innerHTML = "Open Price: " + Math.round(openingPriceToday * 100) / 100;
+  cryptoClosingPrice.innerHTML = "Close Price: " + Math.round(closingPriceToday * 100) / 100;
   cryptoSymbolName.innerHTML = "Name: " + currentSymbol;
 
   try {
@@ -254,16 +259,16 @@ async function getCryptoData(symbol) {
   for (var i = 0; i < 100; i++) {
     myKeys.push(i)
   }
-try {
-  for (var i = 0; i < myKeys.length; i++) {
-    myValuesRaw.push(av_data['Time Series (Digital Currency Daily)'][myKeysRaw[i]]['4a. close (USD)']);
-    myValues.push(parseFloat(myValuesRaw[i]))
+  try {
+    for (var i = 0; i < myKeys.length; i++) {
+      myValuesRaw.push(av_data['Time Series (Digital Currency Daily)'][myKeysRaw[i]]['4a. close (USD)']);
+      myValues.push(parseFloat(myValuesRaw[i]))
+    }
+  } catch {
+    modal.style.display = "block";
+    // closingPrice.innerHTML = "ALERT"
+    // alert("no data! try again")
   }
-} catch {
-  modal.style.display = "block";
-  // closingPrice.innerHTML = "ALERT"
-  // alert("no data! try again")
-}
 
   var graphPoints = myKeys.map(function (e, i) {
     return ([e, myValues[i]]);
@@ -367,7 +372,6 @@ async function makeMyStockGraph(symbol) {
 }
 
 async function makeMyCryptoGraph(symbol) {
-
   d = await getCryptoData(symbol);
   // console.log(d);
   // Step 3
@@ -379,9 +383,10 @@ async function makeMyCryptoGraph(symbol) {
   svg.selectAll("*").remove();
 
   //get stock prices
-  var stockPrices = d.map(function (x) {
-    return x[1];
-  })
+    var stockPrices = d.map(function (x) {
+      return x[1];
+    })
+
   //get lower bound
   lowerBound = Math.min(...stockPrices) - 5
   //get upper bound
