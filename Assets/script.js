@@ -112,8 +112,12 @@ async function getStockData(symbol) {
 const response = await fetch(AV_API_URL + 'function=TIME_SERIES_DAILY&symbol=' + symbol + '&apikey=' + API_KEY);
 
   const data = await response.json();
-
   console.log(data);
+
+  if (('Error Message' in data)) {
+    alert("Enter a Valid Stock")
+    return;
+  };
 
   var myKeysRaw = Object.keys(data['Time Series (Daily)'])
   var myKeys = []
@@ -134,7 +138,7 @@ const response = await fetch(AV_API_URL + 'function=TIME_SERIES_DAILY&symbol=' +
   });
 
   return graphPoints
-}
+};
 
 async function getCryptoData(symbol) {
 
@@ -142,6 +146,11 @@ async function getCryptoData(symbol) {
   const data = await response.json();
   console.log(data);
   console.log(response);
+
+  if (('Error Message' in data)) {
+    alert("Enter a Valid Crypto")
+    return;
+  };
 
   var myKeysRaw = Object.keys(data['Time Series (Digital Currency Daily)']);
   var myKeys = []
@@ -365,10 +374,8 @@ $("#stockBtn").on('click', async function(event){
   storeCurrentStock();
   storeStockArray();
   renderStocks();
-  
-  //const response = await getCurrentStockData(symbol);
-  // const response = await fetch(AV_API_URL + 'function=GLOBAL_QUOTE&symbol=' + symbol + '&apikey=' + API_KEY);
-  // const data = await response.json();
+
+  // Make Graph 
   console.log(symbol);
   makeMyStockGraph(symbol);
   }
@@ -384,78 +391,31 @@ $("#cryptoBtn").on('click', async function(event){
     alert("Please enter a cryptocurrency to look up")
   } else {
   $("svg.crypto-graph").empty();
+  
   //Crypto List
  
   cryptoList.push(symbol);
   storeCurrentCrypto();
   storeCryptoArray();
   renderCrypto();
-  
-  // const response = await fetch(AV_API_URL + 'function=CURRENCY_EXCHANGE_RATE&from_currency=' + symbol + '&to_currency=USD&apikey=' + API_KEY);
-  // const data = await response.json();
   console.log(symbol);
+
+  //Make Graph
   makeMyCryptoGraph(symbol);
   }
 });
 
+//Event handler for if the user hits enter
+$("#stockSymbol").keypress(function(e){
+  if(e.which == 13){
+    e.preventDefault();
+      $("#stockBtn").click();
+  }
+})
 
-
-
-//local storage
-
-// $("#stockBtn").on('click', function(){
-//   //$("#stock-list").empty();
-
-//   let keys = Object.keys(stockSearch);
-//   for (var i = 0; i < keys.length; i++) {
-//     let stockLists = $("#stockBtn");
-//     stockLists.addClass("list-group-item list-group-item-action");
-
-//     let splLoop = keys[i].toLowerCase().split(" ");
-//     for (var j = 0; j < splLoop.length; j++) {
-//       splLoop[j] =
-//         splLoop[j].charAt(0).toUpperCase() + splLoop[j].substring(1);
-//     }
-//     let titleCasedStock = splLoop.join(" ");
-//     stockLists.text(titleCasedStock);
-
-//     $("#stock-list").append(stockLists);
-//   }
-// });
-
-
-// $(document).ready(function() {
-//   var stockSearchStringified = localStorage.getItem("stockSearch");
-
-//   var stockSearch = JSON.parse(stockSearchStringified);
-
-//   if (stockSearch == null) {
-//     stockSearch = {};
-//   }
-
-//   createList(stockSearch);
-
-//   $("#search-button").on("click", function(event) {
-//     event.preventDefault();
-//     let stock = $("#stockSymbol")
-//       .val().trim()
-
-//     if (stock != "") {
-    
-//       stockSearch[stock] = true;
-//     localStorage.setItem("stockSearch", JSON.stringify(stockSearch));
-
-
-//     }
-
-//   });
-
-//   //should link to pull up same stock later
-//   $("#stock-list").on("click", "button", function(event) {
-//     event.preventDefault();
-//     let stock = $(this).text();
-
-
-//   });
-// });
-
+$("#cryptoSymbol").keypress(function(e){
+  if(e.which == 13){
+    e.preventDefault();
+      $("#cryptoBtn").click();
+  }
+})
