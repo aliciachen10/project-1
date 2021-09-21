@@ -145,7 +145,7 @@ const response = await fetch(AV_API_URL + 'function=TIME_SERIES_DAILY&symbol=' +
   // var currentdate = moment().format('YYYY-MM-DD')
   console.log(">>>troubleshooting the error>>>", data['Time Series (Daily)'])
   try {var closingPriceToday = data['Time Series (Daily)'][currentdate]['4. close'];}
-  catch{window.alert("you have reached the api limit for now. wait a minute to do another call.")} 
+  catch{window.alert("you have reached the api limit for now, or your symbol was incorrect. wait a minute to do another call.")} 
   console.log(">>>>>Closing price>>>>>", closingPriceToday)
   var openingPriceToday = data['Time Series (Daily)'][currentdate]['1. open'];
   console.log(">>>>>>Opening Price>>>>>", openingPriceToday)
