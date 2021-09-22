@@ -47,6 +47,19 @@ window.onclick = function (event) {
   }
 }
 
+//Clear Cards
+
+function clearStockCard(){
+  closingPrice.innerHTML = "Close Price: ";
+  openingPrice.innerHTML = "Open Price: ";
+  stockName.innerHTML = "Name: ";
+}
+
+function clearCryptoCard(){
+  cryptoOpeningPrice.innerHTML = "Open Price: ";
+  cryptoClosingPrice.innerHTML = "Close Price:";
+  cryptoSymbolName.innerHTML = "Name: ";
+} 
 
 //Enter searced Stock into DOM
 function renderStocks() {
@@ -155,11 +168,9 @@ async function getStockData(symbol) {
     // When the user clicks on the button, open the modal
     modal.style.display = "block";
     stockList.pop();
-    closingPrice.innerHTML = ""
-    openingPrice.innerHTML = ""
-    stockName.innerHTML = ""
+    renderStocks();
+    clearStockCard();
     return;
-    // renderStocks();
     // alert("you have reached the api limit for now, or your symbol was incorrect. wait a minute to do another call." + err) 
   }
   console.log(">>>>>Closing price>>>>>", closingPriceToday)
@@ -211,10 +222,8 @@ async function getCryptoData(symbol) {
   if (('Error Message' in av_data)) {
     modal.style.display = "block";
     cryptoList.pop();
-    cryptoOpeningPrice.innerHTML = ""
-    cryptoClosingPrice.innerHTML = ""
-    cryptoSymbolName.innerHTML = "" 
-    // renderCrypto();
+    renderCrypto();
+    clearCryptoCard();
     // alert("Enter a Valid Crypto")
     return;
   }
@@ -517,7 +526,7 @@ $("#cryptoBtn").on('click', async function (event) {
     //Crypto List
     if (!cryptoList.includes(symbol)) {
       cryptoList.push(symbol);
-      // renderCrypto();
+      renderCrypto();
     }
     storeCurrentCrypto();
     storeCryptoArray();
