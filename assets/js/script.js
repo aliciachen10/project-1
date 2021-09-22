@@ -82,11 +82,9 @@ function storeCryptoArray() {
   localStorage.setItem("cryptos", JSON.stringify(cryptoList));
 }
 function storeCurrentStock() {
-
   localStorage.setItem("currentstock", JSON.stringify(stockSearch));
 }
 function storeCurrentCrypto() {
-  // if ()
   localStorage.setItem("currentcrypto", JSON.stringify(cryptoSearch));
 }
 
@@ -156,6 +154,8 @@ async function getStockData(symbol) {
     // closingPrice.innerHTML = "ALERT"
     // When the user clicks on the button, open the modal
     modal.style.display = "block";
+    stockList.pop();
+    renderStocks();
     // alert("you have reached the api limit for now, or your symbol was incorrect. wait a minute to do another call." + err) 
   }
   console.log(">>>>>Closing price>>>>>", closingPriceToday)
@@ -206,6 +206,8 @@ async function getCryptoData(symbol) {
 
   if (('Error Message' in av_data)) {
     modal.style.display = "block";
+    cryptoList.pop();
+    renderCrypto();
     // alert("Enter a Valid Crypto")
     return;}
 
@@ -513,7 +515,6 @@ $("#cryptoBtn").on('click', async function (event) {
     storeCryptoArray();
     // console.log(symbol);
     // getCryptoSearchResults(symbol)
-    getCryptoData(symbol)
 
     //Make Graph
     makeMyCryptoGraph(symbol);
