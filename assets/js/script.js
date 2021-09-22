@@ -155,7 +155,11 @@ async function getStockData(symbol) {
     // When the user clicks on the button, open the modal
     modal.style.display = "block";
     stockList.pop();
-    renderStocks();
+    closingPrice.innerHTML = ""
+    openingPrice.innerHTML = ""
+    stockName.innerHTML = ""
+    return;
+    // renderStocks();
     // alert("you have reached the api limit for now, or your symbol was incorrect. wait a minute to do another call." + err) 
   }
   console.log(">>>>>Closing price>>>>>", closingPriceToday)
@@ -207,9 +211,13 @@ async function getCryptoData(symbol) {
   if (('Error Message' in av_data)) {
     modal.style.display = "block";
     cryptoList.pop();
-    renderCrypto();
+    cryptoOpeningPrice.innerHTML = ""
+    cryptoClosingPrice.innerHTML = ""
+    cryptoSymbolName.innerHTML = "" 
+    // renderCrypto();
     // alert("Enter a Valid Crypto")
-    return;}
+    return;
+  }
 
   // var currentdate = '2021-09-21'
   const response = await fetch("https://api.polygon.io/v1/open-close/crypto/" + symbol + "/USD/" + currentdate + "?adjusted=true&apiKey=JbwfTCNLbxUiMAU8m2HpWwwqdlMrRWe6")
@@ -509,7 +517,7 @@ $("#cryptoBtn").on('click', async function (event) {
     //Crypto List
     if (!cryptoList.includes(symbol)) {
       cryptoList.push(symbol);
-      renderCrypto();
+      // renderCrypto();
     }
     storeCurrentCrypto();
     storeCryptoArray();
@@ -537,9 +545,6 @@ $("#cryptoSymbol").keypress(function (e) {
   }
 })
 
-initStockList()
-initCryptoList()
-
 //transforms user's click on the city buttons into a value that can be passed to getapi function
 function handleSearchHistoryClickStock(event) {
   if (event.target.matches('.list-group-item')) {
@@ -558,6 +563,9 @@ function handleSearchHistoryClickCrypto(event) {
     makeMyCryptoGraph(symbol);
   }
 }
+
+initStockList()
+initCryptoList()
 
 stockListArea.addEventListener('click', handleSearchHistoryClickStock)
 cryptoListArea.addEventListener('click', handleSearchHistoryClickCrypto)
