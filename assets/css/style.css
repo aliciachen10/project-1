@@ -139,6 +139,11 @@ margin-bottom: 0;
   padding: 20px;
   border: 1px solid #888;
   width: 80%; /* Could be more or less, depending on screen size */
+  justify-content: center;
+}
+
+.modal-footer{
+  justify-content: center;
 }
 
 /* The Close Button */
