@@ -8,6 +8,11 @@ const cryptoBtn = document.getElementById('cryptoBtn');
 const closingPrice = document.getElementById('closing-price');
 const openingPrice = document.getElementById('opening-price');
 const stockName = document.getElementById('stock-name');
+const cryptoOpeningPrice = document.getElementById('crypto-open-price')
+const cryptoClosingPrice = document.getElementById('crypto-closing-price')
+const cryptoSymbolName = document.getElementById('crypto-symbol-name')
+
+
 var stockSvg = document.getElementById('stock-svg');
 var cryptoSvg = document.getElementById('crypto-svg');
 let symbol = "";
@@ -212,10 +217,7 @@ async function getStockData(symbol) {
 };
 
 async function getCryptoData(symbol) {
-  const cryptoOpeningPrice = document.getElementById('crypto-open-price')
-  const cryptoClosingPrice = document.getElementById('crypto-closing-price')
-  const cryptoSymbolName = document.getElementById('crypto-symbol-name')
-
+  
   const av_response = await fetch(AV_API_URL + 'function=DIGITAL_CURRENCY_DAILY&symbol=' + symbol + '&market=USD&apikey=' + API_KEY);
   const av_data = await av_response.json();
 
@@ -249,7 +251,7 @@ async function getCryptoData(symbol) {
   catch (err) {
     modal.style.display = "block";
 
-    d3.select("#stock-svg").selectAll("*").remove()
+    //d3.select("#stock-svg").selectAll("*").remove()
     // closingPrice.innerHTML = "EXCEEDED"
     // alert = "You have exceeded the # of crypto API calls per minute. Wait a minute before searching again" + err;
   }
