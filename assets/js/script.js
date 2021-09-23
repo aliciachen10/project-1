@@ -12,6 +12,8 @@ const cryptoOpeningPrice = document.getElementById('crypto-open-price')
 const cryptoClosingPrice = document.getElementById('crypto-closing-price')
 const cryptoSymbolName = document.getElementById('crypto-symbol-name')
 
+const kanyeQuote = document.getElementById('kanye-tweet');
+
 
 var stockSvg = document.getElementById('stock-svg');
 var cryptoSvg = document.getElementById('crypto-svg');
@@ -51,6 +53,19 @@ window.onclick = function (event) {
     modal.style.display = "none";
   }
 }
+
+//Get Kanye Tweet
+
+
+async function getKanyeTweet () {
+    const response = await fetch('https://api.kanye.rest');
+    const kanyeTweet = await response.json(); //extract JSON from the http response
+    // do something with myJson
+    console.log(kanyeTweet);
+    kanyeQuote.innerHTML = kanyeTweet['quote'];
+    console.log(kanyeQuote);
+}
+
 
 //Clear Cards
 
@@ -171,6 +186,7 @@ async function getStockData(symbol) {
   catch (err) {
     // closingPrice.innerHTML = "ALERT"
     // When the user clicks on the button, open the modal
+    getKanyeTweet();
     modal.style.display = "block";
     stockList.pop();
     storeStockArray();
@@ -191,6 +207,7 @@ async function getStockData(symbol) {
 
   if (('Error Message' in data)) {
     // When the user clicks on the button, open the modal
+    getKanyeTweet();
     modal.style.display = "block";
     // alert("Enter a Valid Stock")
     return;
@@ -223,6 +240,7 @@ async function getCryptoData(symbol) {
   const av_data = await av_response.json();
 
   if (('Error Message' in av_data)) {
+    getKanyeTweet();
     modal.style.display = "block";
     cryptoList.pop();
     storeCryptoArray();
@@ -238,6 +256,7 @@ async function getCryptoData(symbol) {
   const data = await response.json();
 
   if (('Error Message' in data)) {
+    getKanyeTweet();
     modal.style.display = "block";
     // alert("Enter a Valid Crypto")
     return;
@@ -251,6 +270,7 @@ async function getCryptoData(symbol) {
     var openingPriceToday = data.open;
   }
   catch (err) {
+    getKanyeTweet();
     modal.style.display = "block";
 
     //d3.select("#stock-svg").selectAll("*").remove()
@@ -267,10 +287,12 @@ async function getCryptoData(symbol) {
     var myKeysRaw = Object.keys(av_data['Time Series (Digital Currency Daily)']);
   }
   catch (err) {
+    getKanyeTweet();
     modal.style.display = "block";
     // alert = "too many API calls, or you spelled something wrong!" + err
   }
   if (typeof myKeysRaw == 'undefined') {
+    getKanyeTweet();
     modal.style.display = "block";
     // closingPrice.innerHTML = "ALERT"
     // alert = "You have exceeded the # of API calls per minute. Wait a minute before searching again" ;
@@ -288,6 +310,7 @@ async function getCryptoData(symbol) {
       myValues.push(parseFloat(myValuesRaw[i]))
     }
   } catch {
+    getKanyeTweet();
     modal.style.display = "block";
     // closingPrice.innerHTML = "ALERT"
     // alert("no data! try again")
@@ -497,6 +520,7 @@ $("#stockBtn").on('click', async function (event) {
 
   if (symbol === "") {
     modal.style.display = "block";
+    getKanyeTweet();
     // alert("Please enter a stock to look up")
   } else {
     $("svg.stock-graph").empty();
@@ -523,6 +547,7 @@ $("#cryptoBtn").on('click', async function (event) {
 
   if (symbol === "") {
     modal.style.display = "block";
+    getKanyeTweet();
     // alert("Please enter a cryptocurrency to look up")
   } else {
     $("svg.crypto-graph").empty();
