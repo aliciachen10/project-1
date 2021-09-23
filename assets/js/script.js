@@ -173,6 +173,7 @@ async function getStockData(symbol) {
     // When the user clicks on the button, open the modal
     modal.style.display = "block";
     stockList.pop();
+    storeStockArray();
     renderStocks();
     clearStockCard();
     return;
@@ -224,6 +225,7 @@ async function getCryptoData(symbol) {
   if (('Error Message' in av_data)) {
     modal.style.display = "block";
     cryptoList.pop();
+    storeCryptoArray();
     renderCrypto();
     clearCryptoCard();
     // alert("Enter a Valid Crypto")
