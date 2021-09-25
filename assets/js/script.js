@@ -188,7 +188,9 @@ async function getStockData(symbol) {
     // When the user clicks on the button, open the modal
     getKanyeTweet();
     modal.style.display = "block";
-    stockList.pop();
+    if (!data.hasOwnProperty("Note") || data.hasOwnProperty("Error Message")) {
+      stockList.pop();
+    }
     storeStockArray();
     renderStocks();
     clearStockCard();
